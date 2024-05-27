@@ -1,8 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { Player } from '../../api/player';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { GameRegisterService } from '../game-register.service';
 import { GameInfo } from '../../api/game-info';
 import { CardPack } from '../../api/card-pack';
@@ -12,13 +12,14 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
-  selector: 'app-grid',
+  selector: 'app-draft-board',
   standalone: true,
   imports: [ CommonModule,
              MatProgressBarModule,
              FormsModule,
              MatSlideToggleModule,
-             MatTabsModule
+             MatTabsModule,
+             RouterModule
             ],
   template: `
     <mat-progress-bar mode="determinate" [value]="packsDraftedPercent" class="progress-bar"></mat-progress-bar>
@@ -45,9 +46,9 @@ import { MatTabsModule } from '@angular/material/tabs';
       </mat-tab>
     </mat-tab-group> 
   `,
-  styleUrl: './grid.component.css'
+  styleUrl: './draft-board.component.css'
 })
-export class GridComponent {
+export class DraftBoardComponent {
 
   route: ActivatedRoute = inject(ActivatedRoute);
   // players: Player[] = [];
@@ -60,28 +61,18 @@ export class GridComponent {
   disableCheckboxFlag: boolean = true;
   checkboxValue: boolean = false;
   showHover: boolean = false;
-  
-
-  // constructor(private gameService: GameRegisterService, private player: Player) {
-  //   this.gameId = this.route.snapshot.params['gameId'];
-  //   this.currentPack = player.cardPacks.at(0)!;
-  //   this.player = player;
-
-  // }
+  playerName: string;
 
   constructor(private gameService: GameRegisterService, private router: Router) {
     this.gameId = this.route.snapshot.params['gameId'];
-    this.gameInfo = this.gameService.gameInfo;
+    this.playerName = this.route.snapshot.params['playerName'];
 
-    if (this.gameInfo !== undefined) {
-      this.gameService.createDummyGame(this.gameInfo).then(item => {
+    gameService.getGameInfo(this.gameId).then(gameInfo => {
+      this.gameInfo = gameInfo;
+    });
 
-        this.player = item.at(0)!;
-        this.currentPack = item.at(0)!.cardPacks.at(this.packNumber)!;
-        item.at(0)!.cardsDrafted = [];
-        this.evaluateCheckbox();
-      });
-    } 
+    this.player = this.gameInfo?.players.find(player => player.playerName == this.playerName);
+    this.currentPack = this.player?.cardPacks.at(0);
   }
 
   handleCardSelection(card: Card) {
@@ -94,7 +85,7 @@ export class GridComponent {
       this.disableCheckboxFlag = true;
       this.checkboxValue = false;
 
-      this.draftCardAndCheckValue(card);
+      this.draftCardAndCheckValue(card, true);
       // do not move on to next pack
       this.currentPack!.cardsInPack = this.currentPack?.cardsInPack.filter(item => item.cardID !== card.cardID)!;
       // make rest call to draft card
@@ -105,7 +96,7 @@ export class GridComponent {
 
       // technically just set the next pack
       this.currentPack = this.player!.cardPacks.at(this.packNumber)!;
-      this.draftCardAndCheckValue(card);
+      this.draftCardAndCheckValue(card, false);
       this.evaluateCheckbox();
       if (this.packsDraftedPercent === 100) {
         this.router.navigate(['/waiting', this.gameId, this.player?.playerID]);
@@ -122,19 +113,20 @@ export class GridComponent {
     }
   }
 
-  draftCardAndCheckValue(card: Card) {
+  draftCardAndCheckValue(card: Card, doublePick: boolean) {
 
-    // this.gameService.draftCard(this.player!.playerName,
-    //                            this.currentPack!.packNumer,
-    //                            card.cardID).then(item => 
-    //   {
-    //     if(item.cardID != card.cardID) {
-    //       // Throw some error
-    //       console.log("Card Drafted in back end not equal to current card");
-    //     }
-    //   });
-
-    this.player?.cardsDrafted.push(card);
+    this.gameService.draftCard(this.gameId,
+                               this.player!.playerID,
+                               this.currentPack!.packNumer,
+                               card.cardID,
+                               doublePick).then(item => 
+      {
+        if(item.cardID != card.cardID) {
+          // Throw some error
+          console.log("Card Drafted in back end not equal to current card");
+        }
+        this.player?.cardsDrafted.push(card);
+      });
   }
 
   showHoverImage(value: boolean): void {

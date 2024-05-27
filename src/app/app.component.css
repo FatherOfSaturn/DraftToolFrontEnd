@@ -1,0 +1,6 @@
+.cropped-image-container {
+    /* overflow: auto;  */
+    height: 100%;
+    clip-path: inset(8px 8px 185px 8px);
+}
+/* top right bottom left */

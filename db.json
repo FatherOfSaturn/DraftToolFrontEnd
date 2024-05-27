@@ -2,6 +2,7 @@
     "players": [
         {
             "playerName": "Josh",
+            "playerID": "1",
             "cardPacks": [
                 {
                     "packNumber": 1,
@@ -2097,6 +2098,7 @@
         },
         {
             "playerName": "Zach",
+            "playerID": 2,
             "cardPacks": [
                 {
                     "packNumber": 1,
