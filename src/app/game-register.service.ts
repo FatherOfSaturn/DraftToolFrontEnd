@@ -1,12 +1,8 @@
 import { GameInfo } from './../api/game-info';
 import { Injectable } from '@angular/core';
 import { Card } from '../api/card';
-import { PlayerGameInfo } from '../api/player-info';
-import { PlayerStart } from '../api/player-start';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Player } from '../api/player';
 import { GameCreationInfo } from '../api/game-creation-info';
-import { Observable, lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +11,12 @@ export class GameRegisterService {
 
   gameInfo: GameInfo | undefined;
   gameCreationInfo: GameCreationInfo | undefined;
-  url = 'http://localhost:3000/createGame';
+  // url = 'http://localhost:3000/createGame';
   pyramidBaseUrl = 'http://localhost:3000/pyramid';
   testGameCreateUrl = 'http://localhost:3000/players';
-  gameResourceUrl = 'http://localhost:8080/';
+  url = 'http://localhost:8080/';
 
-  constructor(private http: HttpClient) { 
+  constructor() { 
   }
 
   async createDummyGame(gameInfo: GameInfo) : Promise<Player[]> {
@@ -29,9 +25,14 @@ export class GameRegisterService {
   }
 
   async createGame(gameCreationInfo: GameCreationInfo) : Promise<GameInfo> {
-    return await lastValueFrom(
-      this.http.post<GameInfo>(`${this.url}/game`, gameCreationInfo)
-    );
+    const response = await fetch(`${this.url}/game`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(gameCreationInfo)
+    });
+    return await response.json() ?? {};
   }
 
   async draftCard(gameID: string,
@@ -39,13 +40,17 @@ export class GameRegisterService {
                   packNumber: number,
                   cardID: string,
                   doublePick: boolean) : Promise<Card> {
-    
-    let queryParam = new HttpParams();
-    queryParam.append("doublePick", doublePick);
 
-    return await lastValueFrom(
-      this.http.post<Card>(`${this.url}/game/${gameID}/${playerID}/draftCard/${packNumber}/${cardID}`, null, {params: queryParam})
-    );
+    const url = new URL(`${this.url}/game/${gameID}/${playerID}/draftCard/${packNumber}/${cardID}`);
+    url.searchParams.append("doublePick", doublePick.toString());
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
+    return await response.json() ?? {};
   }
 
   async getGameInfo(gameID: string) : Promise<GameInfo> {

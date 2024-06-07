@@ -1,5 +1,4 @@
 import { PlayerStart } from './../../api/player-start';
-import { GameInfo } from './../../api/game-info';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Card } from '../../api/card'
@@ -14,18 +13,20 @@ import { GameCreationInfo } from '../../api/game-creation-info';
     standalone: true,
     template: `
     <div>
+      <p class="large-text">Enter the following info to start a new draft.</p>
       <input type="text" [(ngModel)]="cubeIdInput" placeholder="Enter cube id...">
       <input type="text" [(ngModel)]="player1Name" placeholder="Enter your name...">
       <input type="text" [(ngModel)]="player2Name" placeholder="Enter Player 2 name...">
       <input type="text" [(ngModel)]="draftTokens" placeholder="Enter Draft Token #...">
       
-      <a [routerLink]="['/pyramid', this.gameID]">
+      <a [routerLink]="['/pyramid', this.gameID, this.player1Id]">
         <button (click)="createGame()">Create Game</button>
       </a>
     </div>
     <div>
       
-      <input type="text" [(ngModel)]="gameID" placeholder="Enter cube id...">
+      <p class="large-text">Enter the following info to join a draft.</p>
+      <input type="text" [(ngModel)]="gameID" placeholder="Enter game id...">
       <input type="text" [(ngModel)]="playerName" placeholder="Enter Player name...">
       <a [routerLink]="['/pyramid', this.gameID, this.playerName]">
         <button (click)="fetchGame()">Find Game</button>
@@ -45,7 +46,9 @@ export class PyramidComponent {
   selectedCard: Card | undefined;
   cubeIdInput: string = '';
   player1Name: string = '';
+  player1Id: string = '';
   player2Name: string = '';
+  player2Id: string = '';
   playerName: string = '';
   draftTokens: number = 0;
   gameID: string = '';
@@ -63,10 +66,10 @@ export class PyramidComponent {
   }
 
   createGame() {
-    const player1Id = uuidv4();
-    const player2Id = uuidv4();
-    const player1: PlayerStart = {playerID: player1Id, name: this.player1Name};
-    const player2: PlayerStart = {playerID: player2Id, name: this.player2Name};
+    this.player1Id = uuidv4();
+    this.player2Id = uuidv4();
+    const player1: PlayerStart = {playerID: this.player1Id, name: this.player1Name};
+    const player2: PlayerStart = {playerID: this.player2Id, name: this.player2Name};
     
     const players: PlayerStart[] = [ player1, player2 ];
     this.gameID = uuidv4();
@@ -75,17 +78,15 @@ export class PyramidComponent {
                              cubeID: this.cubeIdInput,
                              numberOfDoubleDraftPicksPerPlayer: this.draftTokens, 
                              players: players};
-    
-    this.gameService.gameCreationInfo = this.gameCreationInfo;
 
-    // this.gameService.createGame(info).then(item => {
-    //   this.retrievedPlayers = item;
-    // });
+    this.gameService.createGame(this.gameCreationInfo).then(item => {
+      console.log("Created Game: ", item.gameId);
+    });
   }
 
   fetchGame() {
     this.gameService.getGameInfo(this.gameID).then(lh =>{
-      
+      console.log("Found Game: ", lh.gameId);
     })
   }
 }
