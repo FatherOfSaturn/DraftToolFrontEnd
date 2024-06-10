@@ -34,7 +34,17 @@ import { MatTabsModule } from '@angular/material/tabs';
           </div>
         </div>
       </mat-tab>
-      <mat-tab label="Your Selections">
+      <mat-tab label="Your Selections" *ngIf="player!.cardsDrafted!.length > 0">
+        <div class="grid-container">
+          <div class="grid-item" *ngFor="let card of player!.cardsDrafted">
+            <div class="image-container">
+              <img [src]="card.details.image_normal" alt="Image" class="grid-image">
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- <mat-tab label="Your Selections">
         <div class="grid-container">
           <div class="grid-item" *ngFor="let card of player!.cardsDrafted!">
             <div class="image-container">
@@ -42,7 +52,7 @@ import { MatTabsModule } from '@angular/material/tabs';
             </div>
           </div>
         </div>
-      </mat-tab>
+      </mat-tab> -->
     </mat-tab-group> 
   `,
   styleUrl: './grid.component.css'
@@ -62,15 +72,19 @@ export class GridComponent {
   playerName: string;
 
   constructor(private gameService: GameRegisterService, private router: Router) {
-    this.gameId = this.route.snapshot.params['gameId'];
+    this.gameId = this.route.snapshot.params['gameID'];
     this.playerName = this.route.snapshot.params['playerName'];
+
+    console.log("Swapped to Grid, GameID: " + this.gameId + "\nPlayerName: " + this.playerName);
 
     gameService.getGameInfo(this.gameId).then(gameInfo => {
       this.gameInfo = gameInfo;
+      console.log("Grid gameInfo ID: " + this.gameInfo.gameID + "\nPlayer#: " + this.gameInfo.players.length);
+      this.player = this.gameInfo?.players.find(player => player.playerName === this.playerName);
+      this.currentPack = this.player?.cardPacks.at(0);
+      console.log("Current Pack: \n" + JSON.stringify(this.currentPack));
+      this.packNumber = 0;
     });
-
-    this.player = this.gameInfo?.players.find(player => player.playerName == this.playerName);
-    this.currentPack = this.player?.cardPacks.at(0);
   }
 
   handleCardSelection(card: Card) {
@@ -89,12 +103,13 @@ export class GridComponent {
       // make rest call to draft card
     }
     else {
+      this.draftCardAndCheckValue(card, false);
+
       this.packNumber++;
       this.packsDraftedPercent = (this.packNumber / this.player!.cardPacks.length) * 100;
-
+      
       // technically just set the next pack
       this.currentPack = this.player!.cardPacks.at(this.packNumber)!;
-      this.draftCardAndCheckValue(card, false);
       this.evaluateCheckbox();
       if (this.packsDraftedPercent === 100) {
         this.router.navigate(['/waiting', this.gameId, this.player?.playerID]);
@@ -113,9 +128,12 @@ export class GridComponent {
 
   draftCardAndCheckValue(card: Card, doublePick: boolean) {
 
+    console.log("Card Pack For Selection: \n" + JSON.stringify(this.currentPack));
+    console.log("Card PackNumber: \n" + this.currentPack?.packNumber);
+
     this.gameService.draftCard(this.gameId,
                                this.player!.playerID,
-                               this.currentPack!.packNumer,
+                               this.currentPack!.packNumber,
                                card.cardID,
                                doublePick).then(item => 
       {

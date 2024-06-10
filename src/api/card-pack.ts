@@ -1,6 +1,6 @@
 import { Card } from "./card";
 
 export interface CardPack {
-    packNumer: number;
+    packNumber: number;
     cardsInPack: Card[];
 }

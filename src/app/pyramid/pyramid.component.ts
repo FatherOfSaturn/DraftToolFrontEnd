@@ -19,7 +19,7 @@ import { GameCreationInfo } from '../../api/game-creation-info';
       <input type="text" [(ngModel)]="player2Name" placeholder="Enter Player 2 name...">
       <input type="text" [(ngModel)]="draftTokens" placeholder="Enter Draft Token #...">
       
-      <a [routerLink]="['/pyramid', this.gameID, this.player1Id]">
+      <a [routerLink]="['/pyramid', this.gameID, this.player1Name]">
         <button (click)="createGame()">Create Game</button>
       </a>
     </div>
@@ -74,19 +74,20 @@ export class PyramidComponent {
     const players: PlayerStart[] = [ player1, player2 ];
     this.gameID = uuidv4();
     
-    this.gameCreationInfo = {gameId: this.gameID,
+    this.gameCreationInfo = {gameID: this.gameID,
                              cubeID: this.cubeIdInput,
                              numberOfDoubleDraftPicksPerPlayer: this.draftTokens, 
                              players: players};
 
     this.gameService.createGame(this.gameCreationInfo).then(item => {
-      console.log("Created Game: ", item.gameId);
+      console.log("Created Game: ", item.gameID);
     });
   }
 
   fetchGame() {
     this.gameService.getGameInfo(this.gameID).then(lh =>{
-      console.log("Found Game: ", lh.gameId);
+      console.log("pyramid Found Game: ", lh.gameID);
+      console.log("pyramid PlayerName: " + this.playerName);
     })
   }
 }

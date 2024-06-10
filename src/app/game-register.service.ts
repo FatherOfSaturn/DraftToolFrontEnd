@@ -14,7 +14,7 @@ export class GameRegisterService {
   // url = 'http://localhost:3000/createGame';
   pyramidBaseUrl = 'http://localhost:3000/pyramid';
   testGameCreateUrl = 'http://localhost:3000/players';
-  url = 'http://localhost:8080/';
+  url = 'http://localhost:4200/api';
 
   constructor() { 
   }
@@ -54,7 +54,9 @@ export class GameRegisterService {
   }
 
   async getGameInfo(gameID: string) : Promise<GameInfo> {
-    const data = await fetch(`${this.url}/fetchGameData/${gameID}`);
+    const data = await fetch(`${this.url}/game/fetchGameData/${gameID}`);
+    // const gameInfo: GameInfo = await data.json();
+    // return gameInfo;
     return await data.json() ?? {};
   }
 

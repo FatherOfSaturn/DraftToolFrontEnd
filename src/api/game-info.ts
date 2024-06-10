@@ -1,6 +1,6 @@
 import { Player } from './player';
 
 export interface GameInfo {
-    gameId: string;
+    gameID: string;
     players: Player[];
 }

@@ -11,7 +11,7 @@ const routeConfig: Routes = [
     title: 'Home page'
   },
   {
-    path: 'pyramid/:gameId/:playerID',
+    path: 'pyramid/:gameID/:playerName',
     component: GridComponent,
     title: 'Pyramid Draft In Progress'
   }
