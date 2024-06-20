@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Card } from '../api/card';
 import { Player } from '../api/player';
 import { GameCreationInfo } from '../api/game-creation-info';
+import { GameStatusMessage } from '../api/game-status-message';
 
 @Injectable({
   providedIn: 'root'
@@ -55,13 +56,16 @@ export class GameRegisterService {
 
   async getGameInfo(gameID: string) : Promise<GameInfo> {
     const data = await fetch(`${this.url}/game/fetchGameData/${gameID}`);
-    // const gameInfo: GameInfo = await data.json();
-    // return gameInfo;
     return await data.json() ?? {};
   }
 
-  async triggerPackMergeAndSwap(gameID: string) : Promise<GameInfo> {
-    const data = await fetch(`${this.url}/merge/${gameID}`);
+  async triggerPackMergeAndSwap(gameID: string) : Promise<GameStatusMessage> {
+    const data = await fetch(`${this.url}/game/merge/${gameID}`);
+    return await data.json() ?? {};
+  }
+
+  async triggerGameEnd(gameID: string) : Promise<GameStatusMessage> {
+    const data = await fetch(`${this.url}/game/end/${gameID}`);
     return await data.json() ?? {};
   }
 }

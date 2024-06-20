@@ -29,22 +29,16 @@
   .mat-grid-tile-content {
     align-items: flex-start;
   }
+/* 
+  .draft-card {
+    height: 100%;
+    clip-path: inset(8px 8px 185px 8px);
+} */
+/* 
+.mat-tab-group /deep/ {
+    background-color: hsl(300, 91%, 43%);
+  }
   
-  .progress-bar[_ngcontent-ng-c2405264231] {
-    --mdc-linear-progress-active-indicator-height: 20px;
-    --mdc-linear-progress-track-height: 20px;
-    --mdc-linear-progress-active-indicator-color: lawngreen;
-    --mdc-linear-progress-track-color: white;
-  }
-
-  .mat-mdc-tab-group { 
-    background-color: wheat;
-  }
-
-
-/*
-
-No idea why i cant style just the header
-  .mat-mdc-tab-group.mat-mdc-tab-header { 
-    background-color: red;
+.mat-tab /deep/ {
+    background-color: hsl(300, 91%, 43%);
   } */

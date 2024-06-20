@@ -22,8 +22,8 @@ import { MatTabsModule } from '@angular/material/tabs';
             ],
   template: `
     <mat-progress-bar mode="determinate" [value]="packsDraftedPercent" class="progress-bar"></mat-progress-bar>
-    <mat-slide-toggle class="double-draft-toggle" [disabled]="disableCheckboxFlag" [(ngModel)]="checkboxValue">Click to enable double draft Pick</mat-slide-toggle>
-
+    <mat-slide-toggle class="double-draft-toggle" [disabled]="disableCheckboxFlag" [(ngModel)]="checkboxValue">Click to enable double draft Pick, you have {{this.player?.doubleDraftPicksRemaining}} remaining.</mat-slide-toggle>
+    <p>Your Game ID is {{this.gameId}}, Your Draft partner's name is {{this.partnerName}}</p>
     <mat-tab-group>
       <mat-tab label="Draft Pack">
         <div class="grid-container">
@@ -43,16 +43,6 @@ import { MatTabsModule } from '@angular/material/tabs';
           </div>
         </div>
       </mat-tab>
-
-      <!-- <mat-tab label="Your Selections">
-        <div class="grid-container">
-          <div class="grid-item" *ngFor="let card of player!.cardsDrafted!">
-            <div class="image-container">
-              <img [src]="card.details.image_normal" alt="Image" class = "grid-image">
-            </div>
-          </div>
-        </div>
-      </mat-tab> -->
     </mat-tab-group> 
   `,
   styleUrl: './grid.component.css'
@@ -70,6 +60,7 @@ export class GridComponent {
   checkboxValue: boolean = false;
   showHover: boolean = false;
   playerName: string;
+  partnerName: string | undefined;
 
   constructor(private gameService: GameRegisterService, private router: Router) {
     this.gameId = this.route.snapshot.params['gameID'];
@@ -81,9 +72,11 @@ export class GridComponent {
       this.gameInfo = gameInfo;
       console.log("Grid gameInfo ID: " + this.gameInfo.gameID + "\nPlayer#: " + this.gameInfo.players.length);
       this.player = this.gameInfo?.players.find(player => player.playerName === this.playerName);
-      this.currentPack = this.player?.cardPacks.at(0);
-      console.log("Current Pack: \n" + JSON.stringify(this.currentPack));
-      this.packNumber = 0;
+      this.partnerName = this.gameInfo?.players.find(player => !(player.playerName === this.playerName))?.playerName;
+      this.currentPack = this.player?.cardPacks.at(this.player.currentDraftPack);
+      this.packNumber = this.player?.currentDraftPack ?? 0;
+      this.evaluateCheckbox();
+      this.packsDraftedPercent = (this.packNumber / this.player!.cardPacks.length) * 100;
     });
   }
 
@@ -107,18 +100,29 @@ export class GridComponent {
 
       this.packNumber++;
       this.packsDraftedPercent = (this.packNumber / this.player!.cardPacks.length) * 100;
-      
+
+      console.log("GAME STATE: " + this.gameInfo?.gameState);
+
       // technically just set the next pack
       this.currentPack = this.player!.cardPacks.at(this.packNumber)!;
       this.evaluateCheckbox();
-      if (this.packsDraftedPercent === 100) {
-        this.router.navigate(['/waiting', this.gameId, this.player?.playerID]);
+      if (this.packsDraftedPercent === 100 && this.gameInfo?.gameState !== 'GAME_MERGED') {
+        this.router.navigate(['/waiting', this.gameId, this.player?.playerName]);
+      }
+      else if (this.packsDraftedPercent === 100 && (this.gameInfo?.gameState === 'GAME_MERGED' || this.gameInfo?.gameState === 'GAME_COMPLETE')) {
+        this.router.navigate(['/endGame', this.gameId, this.player?.playerName]);
       }
     }
   }
 
   evaluateCheckbox() {
-    if (this.player!.doubleDraftPicksRemaining > 0) {
+
+    if (this.currentPack?.doubleDraftedFlag) {
+      console.log("pack flagged as being double drafted");
+      this.disableCheckboxFlag = true;
+    }
+    else if (this.player!.doubleDraftPicksRemaining > 0) {
+      console.log("You have no more double drafts left.");
       this.disableCheckboxFlag = false;
     }
     else {
@@ -128,7 +132,6 @@ export class GridComponent {
 
   draftCardAndCheckValue(card: Card, doublePick: boolean) {
 
-    console.log("Card Pack For Selection: \n" + JSON.stringify(this.currentPack));
     console.log("Card PackNumber: \n" + this.currentPack?.packNumber);
 
     this.gameService.draftCard(this.gameId,
@@ -137,7 +140,7 @@ export class GridComponent {
                                card.cardID,
                                doublePick).then(item => 
       {
-        if(item.cardID != card.cardID) {
+        if (item.cardID != card.cardID) {
           // Throw some error
           console.log("Card Drafted in back end not equal to current card");
         }

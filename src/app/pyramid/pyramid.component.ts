@@ -1,5 +1,6 @@
 import { PlayerStart } from './../../api/player-start';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Card } from '../../api/card'
 import { FormsModule } from '@angular/forms';
@@ -18,10 +19,7 @@ import { GameCreationInfo } from '../../api/game-creation-info';
       <input type="text" [(ngModel)]="player1Name" placeholder="Enter your name...">
       <input type="text" [(ngModel)]="player2Name" placeholder="Enter Player 2 name...">
       <input type="text" [(ngModel)]="draftTokens" placeholder="Enter Draft Token #...">
-      
-      <a [routerLink]="['/pyramid', this.gameID, this.player1Name]">
-        <button (click)="createGame()">Create Game</button>
-      </a>
+      <button (click)="createGame()">Create Game</button>
     </div>
     <div>
       
@@ -42,6 +40,7 @@ import { GameCreationInfo } from '../../api/game-creation-info';
 })
 export class PyramidComponent {
 
+  route: ActivatedRoute = inject(ActivatedRoute);
   cardPackList: Card[] = [];
   selectedCard: Card | undefined;
   cubeIdInput: string = '';
@@ -56,7 +55,7 @@ export class PyramidComponent {
   testName: string = '';
   gameCreationInfo: GameCreationInfo | undefined;
 
-  constructor(private gameService: GameRegisterService) {}
+  constructor(private gameService: GameRegisterService, private router: Router) {}
   
   submit() {
     console.log('Text input:', this.cubeIdInput);
@@ -81,11 +80,12 @@ export class PyramidComponent {
 
     this.gameService.createGame(this.gameCreationInfo).then(item => {
       console.log("Created Game: ", item.gameID);
+      this.router.navigate(['/pyramid', this.gameID, this.player1Name]);
     });
   }
 
   fetchGame() {
-    this.gameService.getGameInfo(this.gameID).then(lh =>{
+    this.gameService.getGameInfo(this.gameID).then(lh => {
       console.log("pyramid Found Game: ", lh.gameID);
       console.log("pyramid PlayerName: " + this.playerName);
     })

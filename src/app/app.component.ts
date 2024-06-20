@@ -11,7 +11,11 @@ import { MatIconModule } from '@angular/material/icon';
   <main>
     <a [routerLink]="['/']">
       <header class="brand-name">
-        <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
+        <!-- <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon> -->
+        <button mat-button class="home-button">
+          <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
+          Home
+        </button>
       </header>
     </a>
     <section class="content">

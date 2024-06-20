@@ -7,4 +7,6 @@ export interface Player {
     cardPacks: CardPack[];
     cardsDrafted: Card[];
     doubleDraftPicksRemaining: number;
+    currentDraftPack: number;
+    readyForMerge: boolean;
 }

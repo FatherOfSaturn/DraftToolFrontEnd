@@ -3,6 +3,7 @@ import { PyramidComponent } from './pyramid/pyramid.component';
 import { AppComponent } from './app.component';
 import { GridComponent } from './grid/grid.component';
 import { WaitingRoomComponent } from './waiting-room/waiting-room.component';
+import { EndRoomComponent } from './end-room/end-room.component';
 
 const routeConfig: Routes = [
   {
@@ -14,12 +15,17 @@ const routeConfig: Routes = [
     path: 'pyramid/:gameID/:playerName',
     component: GridComponent,
     title: 'Pyramid Draft In Progress'
+  },
+  {
+    path: 'waiting/:gameID/:playerName',
+    component: WaitingRoomComponent,
+    title: 'Waiting'
+  },
+  {
+    path: 'endGame/:gameID/:playerName',
+    component: EndRoomComponent,
+    title: 'End'
   }
-  // {
-  //   path: 'waiting/:gameId/:playerID',
-  //   component: WaitingRoomComponent,
-  //   title: 'Waiting'
-  // }
 ];
 
 export default routeConfig;
