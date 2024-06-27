@@ -18,5 +18,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
-          docker build -t ghcr.io/${{ env.REPO_OWNER }}/draft-tool:${{ github.sha }} .
-          docker push ghcr.io/${{ env.REPO_OWNER }}/draft-tool:${{ github.sha }}
+          docker build -t ghcr.io/fatherofsaturn/draft-tool:${{ github.sha }} .
+          docker push ghcr.io/fatherofsaturn/draft-tool:${{ github.sha }}
