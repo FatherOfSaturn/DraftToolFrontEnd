@@ -1,12 +1,17 @@
+import { GameRegisterService } from './game-register.service';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { APP_INITIALIZER } from '@angular/core';
+import { AppConfigService } from './app-config.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterModule, 
-            MatIconModule],
+            MatIconModule, 
+            HttpClientModule],
   template: `
   <main>
     <a [routerLink]="['/']">
@@ -23,6 +28,19 @@ import { MatIconModule } from '@angular/material/icon';
     </section>
   </main>
   `,
+  providers: [
+    // {
+    //   provide: APP_INITIALIZER,
+    //   multi: true,
+    //   deps: [AppConfigService],
+    //   useFactory: (appConfigService: AppConfigService) => {
+    //     return () => {
+    //       //Make sure to return a promise!
+    //       return appConfigService.loadAppConfig();
+    //     };
+    //   }
+    // }
+  ],
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {

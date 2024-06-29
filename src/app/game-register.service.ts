@@ -4,6 +4,8 @@ import { Card } from '../api/card';
 import { Player } from '../api/player';
 import { GameCreationInfo } from '../api/game-creation-info';
 import { GameStatusMessage } from '../api/game-status-message';
+import { AppConfigService } from './app-config.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +14,11 @@ export class GameRegisterService {
 
   gameInfo: GameInfo | undefined;
   gameCreationInfo: GameCreationInfo | undefined;
-  // url = 'http://localhost:3000/createGame';
-  pyramidBaseUrl = 'http://localhost:3000/pyramid';
   testGameCreateUrl = 'http://localhost:3000/players';
   url = 'http://localhost:4200/api';
 
-  constructor() { 
+  constructor(private appConfigService: AppConfigService) { 
+    // this.url = this.appConfigService.apiBaseUrl;
   }
 
   async createDummyGame(gameInfo: GameInfo) : Promise<Player[]> {
