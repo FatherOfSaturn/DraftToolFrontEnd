@@ -1,6 +1,6 @@
 {
     "/api": {
-        "target": "http://backend:8080",
+        "target": "http://18.117.103.27:8080",
         "secure": false,
         "pathRewrite": {
           "^/api": ""
