@@ -15,7 +15,8 @@ export class GameRegisterService {
   gameInfo: GameInfo | undefined;
   gameCreationInfo: GameCreationInfo | undefined;
   testGameCreateUrl = 'http://localhost:3000/players';
-  url = 'http://localhost:4200/api';
+  // url = 'http://localhost:4200/api';
+  url = 'http://18.117.103.27:8080';
 
   constructor(private appConfigService: AppConfigService) { 
     // this.url = this.appConfigService.apiBaseUrl;
