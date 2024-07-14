@@ -1,0 +1,23 @@
+name: Build and Publish Docker Image to GHCR
+
+on:
+  push:
+    branches:
+      - main  # Trigger workflow on pushes to the main branch
+      - old-version
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Docker Build and Publish to GHCR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+          docker build -t ghcr.io/fatherofsaturn/draft-tool:${{ github.sha }} .
+          docker push ghcr.io/fatherofsaturn/draft-tool:${{ github.sha }}
