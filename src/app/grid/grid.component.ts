@@ -27,11 +27,12 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     <mat-slide-toggle class="double-draft-toggle" [disabled]="disableCheckboxFlag" [(ngModel)]="checkboxValue">Click to enable double draft Pick, you have {{this.player?.doubleDraftPicksRemaining}} remaining.</mat-slide-toggle>
     <p>Your Game ID is {{this.gameId}}, Your Draft partner's name is {{this.partnerName}}</p>
     <mat-tab-group>
+      <!-- Adding a class to this causes the progress bar stying to go away -->
       <mat-tab label="Draft Pack">
         <div class="grid-container">
           <div class="grid-item" *ngFor="let card of currentPack?.cardsInPack">
             <div class="image-container">
-              <img [src]="card.details.image_normal" alt="Image" (click)="handleCardSelection(card)" class = "grid-image">
+              <img [src]="card.details.image_normal" alt="Image" (click)="handleCardSelection(card)" class = "grid-image" (mouseover)="handleHover(card)" (mouseout)="handleOffHover(card)">
             </div>
           </div>
         </div>
@@ -40,7 +41,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
         <div class="grid-container">
           <div class="grid-item" *ngFor="let card of player!.cardsDrafted">
             <div class="image-container">
-              <img [src]="card.details.image_normal" alt="Image" class="grid-image">
+              <img [src]="card.details.image_normal" alt="Image" class="grid-image" (mouseover)="handleHover(card)" (mouseout)="handleOffHover(card)">
             </div>
           </div>
         </div>
@@ -164,7 +165,23 @@ export class GridComponent {
       });
   }
 
-  showHoverImage(value: boolean): void {
-    this.showHover = value;
+  handleHover(hoveredCard: Card) {
+
+    if (hoveredCard.details.image_flip !== null) {
+      console.log("Card has a flip: " + hoveredCard.name);
+      // Probably not the cleanest but I dont use the small image anyway
+      hoveredCard.details.image_small = hoveredCard.details.image_normal;
+
+      hoveredCard.details.image_normal = hoveredCard.details.image_flip;
+    }
+  }
+
+  handleOffHover(offHoverCard: Card) {
+
+    if (offHoverCard.details.image_flip !== null) {
+
+      offHoverCard.details.image_normal = offHoverCard.details.image_small
+      
+    }
   }
 }

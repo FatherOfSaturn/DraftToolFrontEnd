@@ -31,7 +31,7 @@ import { Card } from '../../api/card';
         <div class="grid-container">
           <div class="grid-item" *ngFor="let card of this.draftedList">
             <div class="image-container">
-              <img [src]="card.details.image_normal" alt="Image" (click)="addCardToDeckList(card)" class = "grid-image">
+              <img [src]="card.details.image_normal" alt="Image" (click)="addCardToDeckList(card)" class = "grid-image" (mouseover)="handleHover(card)" (mouseout)="handleOffHover(card)">
             </div>
           </div>
         </div>
@@ -40,7 +40,7 @@ import { Card } from '../../api/card';
         <div class="grid-container">
           <div class="grid-item" *ngFor="let card of this.deckList">
             <div class="image-container">
-              <img [src]="card.details.image_normal" alt="Image" class="grid-image" (click)="removeCardFromDeckList(card)">
+              <img [src]="card.details.image_normal" alt="Image" class="grid-image" (click)="removeCardFromDeckList(card)" (mouseover)="handleHover(card)" (mouseout)="handleOffHover(card)">
             </div>
           </div>
         </div>
@@ -114,6 +114,12 @@ export class EndRoomComponent {
 
   addCardToDeckList(card: Card) {
     if (!this.deckMap?.has(card.cardID)) {
+
+      // Fix image issue for flip cards
+      if (card.details.image_flip !== null) {
+        card.details.image_normal = card.details.image_small;
+      }
+
       this.deckMap?.set(card.cardID, card);
       this.deckList = this.deckMap ? Array.from(this.deckMap?.values()): [];
 
@@ -129,6 +135,12 @@ export class EndRoomComponent {
   // Remove Card From Decklist
   // Add Card to Drafted List
   removeCardFromDeckList(card: Card) {
+
+    // Fix image issue for flip cards
+    if (card.details.image_flip !== null) {
+      card.details.image_normal = card.details.image_small;
+    }
+
     this.deckMap?.delete(card.cardID);
     this.deckList = this.deckMap ? Array.from(this.deckMap.values()) : [];
 
@@ -143,5 +155,24 @@ export class EndRoomComponent {
   sortListsByCMC() {
     this.draftedList?.sort((a, b) => a.cmc - b.cmc);
     this.deckList?.sort((a, b) => a.cmc - b.cmc);
+  }
+  
+  handleHover(hoveredCard: Card) {
+
+    if (hoveredCard.details.image_flip !== null) {
+      // Probably not the cleanest but I dont use the small image anyway
+      hoveredCard.details.image_small = hoveredCard.details.image_normal;
+
+      hoveredCard.details.image_normal = hoveredCard.details.image_flip;
+    }
+  }
+
+  handleOffHover(offHoverCard: Card) {
+
+    if (offHoverCard.details.image_flip !== null) {
+
+      offHoverCard.details.image_normal = offHoverCard.details.image_small
+      
+    }
   }
 }
