@@ -17,10 +17,10 @@ export class GameRegisterService {
   testGameCreateUrl = 'http://localhost:3000/players';
 
   // For Dev
-  url = 'http://localhost:4200/api';
+  // url = 'http://localhost:4200/api';
 
   // For AWS
-  // url = 'http://pyramiddraft.xyz:8080';
+  url = 'http://pyramiddraft.xyz:8080';
 
   constructor(private appConfigService: AppConfigService) { 
     // this.url = this.appConfigService.apiBaseUrl;
