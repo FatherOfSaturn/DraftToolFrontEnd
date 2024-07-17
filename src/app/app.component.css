@@ -17,3 +17,47 @@
     overflow: hidden;
     fill: rgb(33, 11, 228);
 }
+
+
+.toolbar-spacer {
+    flex: 1
+}
+
+.background-field {
+    flex-direction: row-reverse;
+    min-width: 0;
+    text-align: left;
+    width: -webkit-fill-available;
+}
+
+.toolbar {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 16px;
+    background-color: black;
+  }
+  
+  .spacer {
+    flex: 1;
+  }
+  
+  .wizards-text {
+    font-size: x-small;
+    color: antiquewhite;
+  }
+
+  .github-text {
+    padding: inherit;
+    color: antiquewhite;
+  }
+
+  .signature {
+    color: mediumorchid;
+  }
