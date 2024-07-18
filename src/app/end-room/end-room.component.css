@@ -29,6 +29,10 @@
   .mat-grid-tile-content {
     align-items: flex-start;
   }
+
+  .mat-mdc-tab-group { 
+    background-color: rgb(192, 192, 192, .7);
+  }
 /* 
   .draft-card {
     height: 100%;

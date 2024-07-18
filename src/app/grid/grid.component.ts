@@ -24,11 +24,15 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
             ],
   template: `
     <mat-progress-bar mode="determinate" [value]="packsDraftedPercent" class="progress-bar"></mat-progress-bar>
-    <mat-slide-toggle class="double-draft-toggle" [disabled]="disableCheckboxFlag" [(ngModel)]="checkboxValue">Click to enable double draft Pick, you have {{this.player?.doubleDraftPicksRemaining}} remaining.</mat-slide-toggle>
-    <p>Your Game ID is {{this.gameId}}, Your Draft partner's name is {{this.partnerName}}</p>
-    <mat-tab-group>
+    <mat-slide-toggle class="double-draft-toggle" [disabled]="disableCheckboxFlag" [(ngModel)]="checkboxValue">
+      <span class ="draft-pick-text">
+      Click to enable double draft Pick, you have {{this.player?.doubleDraftPicksRemaining}} remaining.
+      </span>
+    </mat-slide-toggle>
+    <p class="game-text">Your Game ID is {{this.gameId}}, Your Draft partner's name is {{this.partnerName}}. Current Pack: {{this.packNumber}}</p>
+    <mat-tab-group class="draft-board">
       <!-- Adding a class to this causes the progress bar stying to go away -->
-      <mat-tab label="Draft Pack">
+      <mat-tab class="header"label="Draft Pack">
         <div class="grid-container">
           <div class="grid-item" *ngFor="let card of currentPack?.cardsInPack">
             <div class="image-container">
@@ -138,6 +142,11 @@ export class GridComponent {
   draftCardAndCheckValue(card: Card, doublePick: boolean) {
 
     console.log("Card PackNumber: \n" + this.currentPack?.packNumber);
+    
+    // Fix image issue for flip cards
+    if (card.details.image_flip !== null) {
+      card.details.image_normal = card.details.image_small;
+    }
 
     this.gameService.draftCard(this.gameId,
                                this.player!.playerID,

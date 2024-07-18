@@ -14,44 +14,40 @@ import { GameCreationInfo } from '../../api/game-creation-info';
     standalone: true,
     template: `
     <div>
-      <p class="large-text">Enter the following info to start a new draft.</p>
+      <p class="pyramid-text">Enter the following info to start a new draft.</p>
       <input type="text" [(ngModel)]="cubeIdInput" placeholder="Enter cubecobra cube id...">
       <input type="text" [(ngModel)]="player1Name" placeholder="Enter your name...">
       <input type="text" [(ngModel)]="player2Name" placeholder="Enter Player 2 name...">
       <input type="number" [(ngModel)]="draftTokens" placeholder="Enter Super Pick # ...">
-      <button (click)="createGame()">Create Game</button>
+      <button class= "create-game-button" (click)="createGame()">Create Game</button>
     </div>
     <div>
-      <p class="large-text">Enter the following info to join a draft.</p>
+      <p class="pyramid-text">Enter the following info to join a draft.</p>
       <input type="text" [(ngModel)]="gameID" placeholder="Enter game id...">
       <input type="text" [(ngModel)]="playerName" placeholder="Enter Player name...">
       <a [routerLink]="['/pyramid', this.gameID, this.playerName]">
         <button (click)="fetchGame()">Find Game</button>
       </a>
     </div>
-    <p>Want to learn more about how Pyramid Drafting works? Check out this wordpress site
+    <span>
+      Want to learn more about how Pyramid Drafting works? Check out this wordpress site
       <a href="https://desolatelighthouse.wordpress.com/2020/12/21/pyramid-draft/"> here</a>.
-    </p>
-
-    <p>
-      Search for Cubes 
+      <br>Search for Cubes 
       <a href="https://cubecobra.com/dashboard">here</a>
-    </p>
-    <p>
+      <br><br>
       Or, here are some personal cubes to check out!
-    </p>
-    <p>
+      <br>
       Horror of Innistrad: Check the cube 
       <a href="https://cubecobra.com/cube/list/e77c5054-861d-4689-af1a-732736ef789b">here</a>
-      <!-- , or jump right in with your Partner 
-      <a>here</a> -->
-    </p>
-    <p>
+      , or, Draft this cube: 
+      <button (click)="makeGame('e77c5054-861d-4689-af1a-732736ef789b')">here.</button>
+      <br>
       WaWa's Vintage+Power Cube: Check the cube 
       <a href="https://cubecobra.com/cube/overview/WaWa">here</a>
-      <!-- , or jump right in with your Partner  -->
-      <!-- <a>here</a> -->
-    </p>
+      , or, Draft this cube: 
+      <button (click)="makeGame('WaWa')">here.</button>
+      <br>
+    </span>
     `,
     styleUrl: './pyramid.component.css',
     imports: [
@@ -115,5 +111,16 @@ export class PyramidComponent {
       console.log("pyramid Found Game: ", lh.gameID);
       console.log("pyramid PlayerName: " + this.playerName);
     })
+  }
+
+  makeGame(cubeID: string) {
+
+    this.player1Name = "Player-1";
+    this.player2Name = "Player-2";
+
+    this.cubeIdInput = cubeID;
+    this.draftTokens = 5;
+
+    this.createGame();
   }
 }

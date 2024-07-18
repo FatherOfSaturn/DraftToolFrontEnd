@@ -26,25 +26,8 @@
   }
 
   .mat-mdc-tab-group { 
-    background-color: rgb(192, 192, 192, .8);
+    background-color: rgb(192, 192, 192, .7);
   }
-/* 
-  .mat-mdc-tab-header[_ngcontent-ng-c2405264231] {
-    background-color: wheat;
-  } */
-  
-  /* .draft-label {
-    background-color: blue;
-  } */
-
-/*
-
-No idea why i cant style just the header
-  .mat-mdc-tab-group.mat-mdc-tab-header { 
-    background-color: red;
-  } */
-
-  
 
   .progress-bar {
     margin-top: 10px;
@@ -54,3 +37,44 @@ No idea why i cant style just the header
     --mdc-linear-progress-active-indicator-color: lawngreen;
     --mdc-linear-progress-track-color: white;
   }
+
+  .draft-pick-text {
+    font-size: 20px;
+    font-weight: bold;
+    background-color: rgb(255, 255, 255, .2);
+  }
+
+  .game-text {
+    background-color: rgb(255, 255, 255, .2);
+  }
+
+  .mat-mdc-slide-toggle.double-draft-toggle {
+    --mdc-switch-selected-focus-state-layer-color: black;
+    --mdc-switch-selected-handle-color: black;
+    --mdc-switch-selected-hover-state-layer-color: black;
+    --mdc-switch-selected-pressed-state-layer-color: blue;
+    --mdc-switch-selected-focus-handle-color: black;
+    --mdc-switch-selected-hover-handle-color: black;
+    --mdc-switch-selected-pressed-handle-color: black;
+    --mdc-switch-selected-focus-track-color: black;
+    --mdc-switch-selected-hover-track-color: blue;
+    --mdc-switch-selected-pressed-track-color: blue;
+    --mdc-switch-selected-track-color: blue;
+  }
+/* 
+  .mat-mdc-tab-group.draft-board.mat-mdc-tab-header {
+    background-color: white;
+  }
+
+  .mat-mdc-tab-header {
+    background-color: white;
+  }
+
+  .mat-mdc-tag-group.header {
+    background-color: white;
+  }
+
+  
+  .mat-mdc-tab-label-container {
+    background-color: white;
+  } */
