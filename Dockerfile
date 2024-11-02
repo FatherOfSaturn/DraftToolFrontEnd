@@ -38,6 +38,10 @@ FROM nginx:alpine
 # Copy the built files from Stage 1
 COPY --from=build usr/src/app/dist/draft-tool /usr/share/nginx/html/browser
 
+# Set permissions
+RUN chown -R nginx:nginx /usr/share/nginx/html/browser && \
+    chmod -R 755 /usr/share/nginx/html/browser
+
 # Copy a custom Nginx configuration file if needed (optional)
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
