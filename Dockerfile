@@ -36,7 +36,7 @@ RUN ng build --configuration production
 FROM nginx:alpine
 
 # Copy the built files from Stage 1
-COPY --from=build /app/dist/draft-tool /usr/share/nginx/html
+COPY --from=build usr/src/app/dist/draft-tool /usr/share/nginx/html
 
 # Copy a custom Nginx configuration file if needed (optional)
 # COPY nginx.conf /etc/nginx/nginx.conf
