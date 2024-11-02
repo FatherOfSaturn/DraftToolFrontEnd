@@ -39,7 +39,7 @@ FROM nginx:alpine
 COPY --from=build usr/src/app/dist/draft-tool /usr/share/nginx/html
 
 # Copy a custom Nginx configuration file if needed (optional)
-# COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Expose the port Nginx runs on
 EXPOSE 80
