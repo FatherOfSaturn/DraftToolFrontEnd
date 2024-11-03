@@ -36,7 +36,7 @@ RUN ng build --configuration production
 FROM nginx:alpine
 
 # Copy the built files from Stage 1
-COPY --from=build usr/src/app/dist/draft-tool /usr/share/nginx/html/browser
+COPY --from=build usr/src/app/dist/draft-tool /usr/share/nginx/html
 
 # Set permissions
 RUN chown -R nginx:nginx /usr/share/nginx/html/browser && \
