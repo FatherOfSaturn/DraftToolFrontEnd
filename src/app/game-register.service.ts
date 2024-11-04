@@ -14,10 +14,10 @@ export class GameRegisterService {
 
   gameInfo: GameInfo | undefined;
   gameCreationInfo: GameCreationInfo | undefined;
-  testGameCreateUrl = 'http://localhost:3000/players';
 
   // For Dev
-  url = 'http://localhost:4200/api';
+  // url = 'http://localhost:4200/api';
+  url = 'FALED TO OVERRIDE';
 
   // For AWS
   // url = 'http://pyramiddraft.xyz:8080';
@@ -30,13 +30,6 @@ export class GameRegisterService {
 
   getEnvironmentUrl() {
     this.url = (`${environment.apiUrl}`);
-  }
-  
-
-  async createDummyGame(gameInfo: GameInfo) : Promise<Player[]> {
-    this.getEnvironmentUrl();
-    const data = await fetch(`${this.testGameCreateUrl}`);
-    return await data.json() ?? {};
   }
 
   async createGame(gameCreationInfo: GameCreationInfo) : Promise<GameInfo> {
