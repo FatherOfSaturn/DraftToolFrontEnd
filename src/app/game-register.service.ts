@@ -5,7 +5,7 @@ import { Player } from '../api/player';
 import { GameCreationInfo } from '../api/game-creation-info';
 import { GameStatusMessage } from '../api/game-status-message';
 import { AppConfigService } from './app-config.service';
-import { HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +28,13 @@ export class GameRegisterService {
     // this.url = this.appConfigService.apiBaseUrl;
   }
 
+  getEnvironmentUrl() {
+    this.url = (`${environment.apiUrl}`);
+  }
+  
+
   async createDummyGame(gameInfo: GameInfo) : Promise<Player[]> {
+    this.getEnvironmentUrl();
     const data = await fetch(`${this.testGameCreateUrl}`);
     return await data.json() ?? {};
   }
