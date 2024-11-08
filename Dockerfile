@@ -47,5 +47,19 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose the port Nginx runs on
 EXPOSE 80
-
 # Nginx will run automatically as the container entrypoint
+
+# Install everything needed for Certbot
+# Update and install Python3, pip, virtualenv, and other dependencies
+RUN apk update && \
+    apk add --no-cache python3 python3-dev py3-pip py3-virtualenv augeas-libs
+
+# Create and activate a virtual environment for Certbot
+RUN python3 -m venv /opt/certbot
+ENV PATH="/opt/certbot/bin:$PATH"
+
+# Upgrade pip within the virtual environment
+RUN pip install --upgrade pip
+
+# Install Certbot and the Certbot NGINX plugin within the virtual environment
+RUN pip install certbot certbot-nginx
