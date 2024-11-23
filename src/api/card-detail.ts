@@ -6,4 +6,5 @@ export interface CardDetail {
     image_normal: string;
     image_flip: string;
     name: string;
+    parsed_cost: string[];
 }

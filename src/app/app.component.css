@@ -1,63 +1,71 @@
-.cropped-image-container {
-    /* overflow: auto;  */
-    height: 100%;
-    clip-path: inset(8px 8px 185px 8px);
-}
-/* top right bottom left */
-
-
-.mat-icon {
-    -webkit-user-select: none;
-    user-select: none;
-    background-repeat: no-repeat;
-    display: inline-block;
-    fill: currentColor;
-    height: fit-content;
-    width: fit-content;
-    overflow: hidden;
-    fill: rgb(33, 11, 228);
-}
-
-
-.toolbar-spacer {
-    flex: 1
-}
-
-.background-field {
-    flex-direction: row-reverse;
-    min-width: 0;
-    text-align: left;
-    width: -webkit-fill-available;
-}
-
 .toolbar {
-    background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.center-buttons {
+  display: flex;
+  gap: 16px;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.toolbar-button {
+  font-size: larger;
+}
+
+.account-button {
+  margin-left: auto; /* Pushes the button to the right */
+}
+
+/* Flex container that holds everything */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensures the container takes the full height of the viewport */
+}
+
+/* Main content grows to take up available space */
+.content {
+  flex: 1;
 }
 
 .footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 16px;
-    background-color: black;
-  }
-  
-  .spacer {
-    flex: 1;
-  }
-  
-  .wizards-text {
-    font-size: x-small;
-    color: antiquewhite;
-  }
+  background-color: #f1f1f1;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  .github-text {
-    padding: inherit;
-    color: antiquewhite;
-  }
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
 
-  .signature {
-    color: mediumorchid;
-  }
+.footer-icons mat-icon {
+  margin: 0 8px;
+  font-size: 24px;
+  color: #333;
+}
+
+.footer-links h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.footer-links p {
+  margin: 4px 0;
+  color: #333;
+  font-size: 14px;
+}
+
+.social-icon {
+  width: 24px; /* Adjust size as needed */
+  height: 24px;
+  margin: 0 8px;
+  vertical-align: middle;
+}

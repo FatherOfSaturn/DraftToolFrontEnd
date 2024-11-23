@@ -6,6 +6,7 @@ import { GameCreationInfo } from '../api/game-creation-info';
 import { GameStatusMessage } from '../api/game-status-message';
 import { AppConfigService } from './app-config.service';
 import { environment } from '../environments/environment';
+import { CardPack } from '../api/card-pack';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,6 @@ export class GameRegisterService {
 
   gameInfo: GameInfo | undefined;
   gameCreationInfo: GameCreationInfo | undefined;
-
 
   constructor(private appConfigService: AppConfigService) { 
     // this.url = this.appConfigService.apiBaseUrl;
@@ -63,4 +63,21 @@ export class GameRegisterService {
     const data = await fetch(`${environment.apiUrl}/game/end/${gameID}`);
     return await data.json() ?? {};
   }
+
+  async getFakePack() : Promise<CardPack> {
+
+    return (await this.getFakePlayerData()).at(0)?.cardPacks.at(8)!;
+  }
+
+  async getFakePlayerData() : Promise<Player[]> {
+    const data = await fetch(`http://localhost:3000/players`);
+    return await data.json() ?? {};
+  }
+  
+  async getFakeGameData() : Promise<GameInfo> {
+    const data = await fetch(`http://localhost:3000/game`);
+    return await data.json() ?? {};
+  }
 }
+
+// json-server --watch db.json

@@ -1,4 +1,4 @@
-import { PlayerStart } from './../../api/player-start';
+import { PlayerStart } from '../../api/player-start';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -13,22 +13,41 @@ import { GameCreationInfo } from '../../api/game-creation-info';
     selector: 'app-pyramid',
     standalone: true,
     template: `
+
     <div>
-      <p class="pyramid-text">Enter the following info to start a new draft.</p>
-      <input type="text" [(ngModel)]="cubeIdInput" placeholder="Enter cubecobra cube id...">
-      <input type="text" [(ngModel)]="player1Name" placeholder="Enter your name...">
-      <input type="text" [(ngModel)]="player2Name" placeholder="Enter Player 2 name...">
-      <input type="number" [(ngModel)]="draftTokens" placeholder="Enter Super Pick # ...">
-      <button class= "create-game-button" (click)="createGame()">Create Game</button>
-    </div>
-    <div>
-      <p class="pyramid-text">Enter the following info to join a draft.</p>
-      <input type="text" [(ngModel)]="gameID" placeholder="Enter game id...">
-      <input type="text" [(ngModel)]="playerName" placeholder="Enter Player name...">
-      <a [routerLink]="['/pyramid', this.gameID, this.playerName]">
+      <p>The Pyramid Draft aims to spread the decisions evenly throughout the draft process by offering smaller packs at first, and larger packs later. 
+        In the beginning, you are open and need to consider all cards in a pack as options. 
+        Towards the end, you have already committed to colors and archetypes, and need to consider fewer cards as options.
+        Check out the Creator's wordpress 
+        <a href="https://desolatelighthouse.wordpress.com/2020/12/21/pyramid-draft/" target="_blank" rel="noopener noreferrer">site!</a>
+        None of this would exist without them.
+      </p>
+      <div>
+        <p class="pyramid-text">Enter the following info to start a new draft.</p>
+        <input type="text" [(ngModel)]="cubeIdInput" placeholder="Enter cubecobra cube id...">
+        <input type="text" [(ngModel)]="player1Name" placeholder="Enter your name...">
+        <input type="text" [(ngModel)]="player2Name" placeholder="Enter Player 2 name...">
+        <input type="number" [(ngModel)]="draftTokens" placeholder="Enter Super Pick # ...">
+        <button class= "create-game-button" (click)="createGame()">Create Game</button>
+      </div>
+      <div>
+        <p class="pyramid-text">Enter the following info to join a draft.</p>
+        <input type="text" [(ngModel)]="gameID" placeholder="Enter game id...">
+        <input type="text" [(ngModel)]="playerName" placeholder="Enter Player name...">
+        <a [routerLink]="['/pyramid', this.gameID, this.playerName]">
         <button (click)="fetchGame()">Find Game</button>
-      </a>
+        </a>
+      </div>
+      <div>
+        <p>
+          Future asked for features:
+        </p>
+        <ul>
+          <li *ngFor="let item of featureList">{{ item }}</li>
+        </ul>
+      </div>
     </div>
+<!-- 
     <span>
       Want to learn more about how Pyramid Drafting works? Check out this wordpress site
       <a href="https://desolatelighthouse.wordpress.com/2020/12/21/pyramid-draft/"> here</a>.
@@ -47,16 +66,18 @@ import { GameCreationInfo } from '../../api/game-creation-info';
       , or, Draft this cube: 
       <button (click)="makeGame('WaWa')">here.</button>
       <br>
-    </span>
+    </span> -->
     `,
-    styleUrl: './pyramid.component.css',
+    styleUrl: './pyramid-landing.component.css',
     imports: [
         CommonModule,
         FormsModule,
         RouterModule
     ]
 })
-export class PyramidComponent {
+export class PyramidLandingComponent {
+
+  featureList = ["Feature 1", "Feature 2", "Feature 3", "Feature 4"];
 
   route: ActivatedRoute = inject(ActivatedRoute);
   cardPackList: Card[] = [];
