@@ -190,7 +190,7 @@ import {MatSelectModule} from '@angular/material/select';
 </div>
 
   `,
-  styleUrl: './mulligan.component.css'
+  styleUrl: './mulligan.component.scss'
 })
 export class MulliganComponent {
 

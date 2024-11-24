@@ -4,7 +4,6 @@ import { Card } from '../api/card';
 import { Player } from '../api/player';
 import { GameCreationInfo } from '../api/game-creation-info';
 import { GameStatusMessage } from '../api/game-status-message';
-import { AppConfigService } from './app-config.service';
 import { environment } from '../environments/environment';
 import { CardPack } from '../api/card-pack';
 
@@ -16,9 +15,7 @@ export class GameRegisterService {
   gameInfo: GameInfo | undefined;
   gameCreationInfo: GameCreationInfo | undefined;
 
-  constructor(private appConfigService: AppConfigService) { 
-    // this.url = this.appConfigService.apiBaseUrl;
-  }
+  constructor() { }
 
   async createGame(gameCreationInfo: GameCreationInfo) : Promise<GameInfo> {
     const response = await fetch(`${environment.apiUrl}/game`, {

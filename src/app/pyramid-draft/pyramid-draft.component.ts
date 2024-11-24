@@ -59,7 +59,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
       </div>
     </div>
     `,
-    styleUrl: './pyramid-draft.component.css',
+    styleUrl: './pyramid-draft.component.scss',
     imports: [
         CommonModule,
         FormsModule,

@@ -47,7 +47,7 @@ import { Card } from '../../api/card';
       </mat-tab>
     </mat-tab-group> 
   `,
-  styleUrl: './end-room.component.css'
+  styleUrl: './end-room.component.scss'
 })
 export class EndRoomComponent {
 

@@ -1,7 +1,7 @@
 .toolbar {
   display: flex;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.9);
 }
 
 .center-buttons {
@@ -11,28 +11,34 @@
   justify-content: center;
 }
 
+.home-button {
+  color: white;
+}
+.account-button {
+  color: pink;
+}
+
 .toolbar-button {
   font-size: larger;
 }
 
 .account-button {
-  margin-left: auto; /* Pushes the button to the right */
+  margin-left: auto;
 }
 
-/* Flex container that holds everything */
 .page-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Ensures the container takes the full height of the viewport */
+  min-height: 100vh;
 }
 
-/* Main content grows to take up available space */
 .content {
   flex: 1;
+  background: linear-gradient(to right, #D9D9D9, #9400AE); 
 }
 
 .footer {
-  background-color: #f1f1f1;
+  background-color: gray;
   padding: 16px;
   display: flex;
   justify-content: space-between;
@@ -64,7 +70,7 @@
 }
 
 .social-icon {
-  width: 24px; /* Adjust size as needed */
+  width: 24px;
   height: 24px;
   margin: 0 8px;
   vertical-align: middle;

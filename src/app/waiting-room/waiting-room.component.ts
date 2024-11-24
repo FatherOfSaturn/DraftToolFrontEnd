@@ -24,7 +24,7 @@ import { CommonModule } from '@angular/common';
       </div>
     </div>
   `,
-  styleUrl: './waiting-room.component.css'
+  styleUrl: './waiting-room.component.scss'
 })
 export class WaitingRoomComponent {
 

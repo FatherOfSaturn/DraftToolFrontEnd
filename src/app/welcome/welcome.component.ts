@@ -24,7 +24,7 @@ import { Component } from '@angular/core';
         </p>
     </div>
     `,
-    styleUrl: './welcome.component.css',
+    styleUrl: './welcome.component.scss',
     imports: [
     ]
 })

@@ -1,0 +1,72 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+
+$theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: mat.$orange-palette,
+  ),
+  typography: (
+    brand-family: 'Comic Sans',
+    bold-weight: 900
+  ),
+  density: (
+    scale: -1
+  )
+));
+
+
+html {
+  @include mat.all-component-themes($my-theme);
+}
+
+
+// @import '@angular/material/theming';
+
+// @include mat.core();
+
+
+// $my-theme-primary: mat-pallette($mat-indigo);
+// $my-theme-accent: mat-pallette($mat-pink, A200, A100, A400);
+// $my-theme-warn: mat-pallette($mat-red);
+
+
+// $my-theme: mat-light-theme($my-theme-primary, $my-theme-accent, $my-theme-warn);
+
+// @include angular-material-theme($my-theme);
+
+
+// @use '@angular/material' as mat;
+
+// @include mat.core();
+
+
+// /* Light Theme */
+// $light-theme: mat.define-light-theme((
+//   color: (
+//     primary: mat.define-palette(mat.$indigo-palette),
+//     accent: mat.define-palette(mat.$amber-palette),
+//     warn: mat.define-palette(mat.$red-palette),
+//   ),
+// ));
+
+// /* Dark Theme */
+// $dark-theme: mat.define-dark-theme((
+//   color: (
+//     primary: mat.define-palette(mat.$blue-grey-palette),
+//     accent: mat.define-palette(mat.$orange-palette),
+//     warn: mat.define-palette(mat.$pink-palette),
+//   ),
+// ));
+
+// /* Light Theme */
+// .light-theme {
+//   @include mat.all-component-themes($light-theme);
+// }
+
+// /* Dark Theme */
+// .dark-theme {
+//   @include mat.all-component-themes($dark-theme);
+// }

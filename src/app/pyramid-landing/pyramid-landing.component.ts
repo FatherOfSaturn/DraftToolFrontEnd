@@ -68,7 +68,7 @@ import { GameCreationInfo } from '../../api/game-creation-info';
       <br>
     </span> -->
     `,
-    styleUrl: './pyramid-landing.component.css',
+    styleUrl: './pyramid-landing.component.scss',
     imports: [
         CommonModule,
         FormsModule,

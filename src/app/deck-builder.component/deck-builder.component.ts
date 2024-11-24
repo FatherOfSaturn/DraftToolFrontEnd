@@ -133,7 +133,7 @@ import {MatSelectModule} from '@angular/material/select';
       </mat-tab>
     </mat-tab-group> 
   `,
-  styleUrl: './deck-builder.component.css'
+  styleUrl: './deck-builder.component.scss'
 })
 export class DeckBuilderComponent {
 

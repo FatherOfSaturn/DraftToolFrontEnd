@@ -52,7 +52,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
       </mat-tab>
     </mat-tab-group> 
   `,
-  styleUrl: './grid.component.css'
+  styleUrl: './grid.component.scss'
 })
 export class GridComponent {
 

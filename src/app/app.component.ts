@@ -24,29 +24,29 @@ import { MatButtonModule } from '@angular/material/button';
   template: `
   
   <main>
-  <button mat-flat-button>TEST BUTTON</button>
+  <!-- <button mat-flat-button>TEST BUTTON</button> -->
     <div class="page-container">
       <header>
         <mat-toolbar class="toolbar">
           <a [routerLink]="['/']">
             <button mat-icon-button class="home-button" aria-label="Example Home Icon">
-              <mat-icon class="large-icon">home</mat-icon>
+              <mat-icon class="large-icon" color="accent">home</mat-icon>
             </button>
           </a>
           <div class="center-buttons">
             <a [routerLink]="['/pyramid']">
-              <button mat-flat-button class="toolbar-button">Pyramid Draft</button>
+              <button mat-flat-button class="toolbar-button" color="primary">Pyramid Draft</button>
             </a>
             <a [routerLink]="['/deckBuilder']">
-              <button mat-flat-button class="toolbar-button">Deck Builder</button>
+              <button mat-flat-button class="toolbar-button" color="primary">Deck Builder</button>
             </a>
             <a [routerLink]="['/mulligan']">
-              <button mat-flat-button class="toolbar-button">Mulligan Sim</button>
+              <button mat-flat-button class="toolbar-button" color="primary">Mulligan Sim</button>
             </a>
-            <button mat-flat-button class="toolbar-button">Battle Box</button>
+            <button mat-flat-button class="toolbar-button"  color="primary">Battle Box</button>
           </div>
           <button mat-icon-button aria-label="User profile" class="account-button">
-            <mat-icon>account_circle</mat-icon>
+            <mat-icon color="accent">account_circle</mat-icon>
           </button>
         </mat-toolbar>
       </header>
@@ -81,7 +81,7 @@ import { MatButtonModule } from '@angular/material/button';
   `,
   providers: [
   ],
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   title = 'draft-tool';
