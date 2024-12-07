@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import {} from '@angular/common/http';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -23,10 +22,9 @@ import { MatButtonModule } from '@angular/material/button';
   template: `
   
   <main>
-  <!-- <button mat-flat-button>TEST BUTTON</button> -->
     <div class="page-container">
       <header>
-        <mat-toolbar class="toolbar">
+        <mat-toolbar class="toolbar" color="primary">
           <a [routerLink]="['/']">
             <button mat-icon-button class="home-button" aria-label="Example Home Icon">
               <mat-icon class="large-icon" color="accent">home</mat-icon>

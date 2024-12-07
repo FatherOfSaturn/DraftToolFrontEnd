@@ -5,7 +5,8 @@ import { Component } from '@angular/core';
     standalone: true,
     template: `
     <div class="content">
-      <h2>Welcome to the Pyramid Drafting website.</h2>
+      <h1 class="title">Welcome to the Pyramid Drafting website.</h1>
+      <h4 class="title">The website to have a quick draft with a friend.</h4>
         <p>
             This is a side project I created so I could draft with my brother/friends/wife remotely very easily. 
             I was looking for a good way to draft a cube with just two people and have a good mix and view of an entire cube. 
@@ -22,6 +23,9 @@ import { Component } from '@angular/core';
             Front end development is definitely my shackle, as I pretty much used this project to learn it all, so it is definitely shaky. 
             Get started by selecting the buttons at the top, each with have an explanation of what it is when you select it.
         </p>
+        <div class="image-container">
+          <img src="assets/pyramid.jpg" alt="Surreal Pyramids">
+        </div>
     </div>
     `,
     styleUrl: './welcome.component.scss',
