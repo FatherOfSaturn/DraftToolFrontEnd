@@ -11,7 +11,10 @@ import { Card } from '../../api/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ApexChart, ApexDataLabels, ApexNonAxisChartSeries, ApexPlotOptions, ApexTitleSubtitle, ApexTooltip, ApexXAxis, ApexYAxis, NgApexchartsModule } from 'ng-apexcharts';
-import {MatSelectModule} from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { DialogContentComponent } from '../dialog-content/dialog-content.component';
 
 @Component({
   selector: 'app-end-room',
@@ -23,7 +26,10 @@ import {MatSelectModule} from '@angular/material/select';
              MatGridListModule,
              MatCheckboxModule,
              NgApexchartsModule,
-             MatSelectModule ],
+             MatSelectModule,
+             MatButtonModule,
+             MatDialogModule
+            ],
   template: `
 <!--     
     <p>
@@ -52,6 +58,7 @@ import {MatSelectModule} from '@angular/material/select';
         </mat-select>
       </mat-form-field>
       <button mat-flat-button>Export</button>
+      <button mat-flat-button class="upload button" (click)="openDialog()">Upload Deck List</button>
     </p>
 
     <mat-grid-list cols="4" rowHeight="2:1">
@@ -83,7 +90,8 @@ import {MatSelectModule} from '@angular/material/select';
           [chart]="pieChartType"
           [title]="colorChartTitle"
           [labels]="colorChartLabels"
-          [colors]="colorChartColors">
+          [colors]="colorChartColors"
+          [theme]="chartOptions.theme">
         </apx-chart>
       </div>
       </mat-grid-tile>
@@ -94,7 +102,8 @@ import {MatSelectModule} from '@angular/material/select';
           [chart]="pieChartType"
           [title]="cardTypesChartTitle"
           [labels]="cardTypeChartLabels"
-          [colors]="cardTypeChartColors">
+          [colors]="cardTypeChartColors"
+          [theme]="chartOptions.theme">
         </apx-chart>
       </div>
       </mat-grid-tile>
@@ -106,7 +115,8 @@ import {MatSelectModule} from '@angular/material/select';
           [title]="cmcChartTitle"
           [xaxis]="cmcChartXAxis"
           [yaxis]="cmcChartYAxis"
-          [plotOptions]="cmcChartPlotOptions">
+          [plotOptions]="cmcChartPlotOptions"
+          [theme]="chartOptions.theme">
         </apx-chart>
       </div>
       </mat-grid-tile>
@@ -150,7 +160,8 @@ export class DeckBuilderComponent {
   deckMap: Map<string, Card> | undefined;
   deckList: Card[];
   
-  constructor(private gameService: GameRegisterService, private router: Router) {
+  constructor(private gameService: GameRegisterService, private router: Router,
+              public dialog: MatDialog) {
     this.gameID = this.route.snapshot.params['gameID'];
     this.playerName = this.route.snapshot.params['playerName'];
 
@@ -464,6 +475,11 @@ export class DeckBuilderComponent {
 // *****************************************************************
 // *********************TYPE GRAPH START****************************
 // *****************************************************************
+chartOptions = {
+  theme: {
+    mode: 'dark' as 'dark' | 'light'
+  },
+};
 
   artifactCardCount = 0;
   creatureCardCount = 0;
@@ -512,4 +528,9 @@ export class DeckBuilderComponent {
 // *****************************************************************
 // ***********************TYPE GRAPH END****************************
 // *****************************************************************
+
+  openDialog(): void {
+    this.dialog.open(DialogContentComponent);
+  }
+
 }

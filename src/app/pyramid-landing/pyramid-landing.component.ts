@@ -8,6 +8,9 @@ import { GameRegisterService } from '../game-register.service';
 import { v4 as uuidv4 } from 'uuid';
 import { RouterModule } from '@angular/router';
 import { GameCreationInfo } from '../../api/game-creation-info';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
     selector: 'app-pyramid',
@@ -15,27 +18,45 @@ import { GameCreationInfo } from '../../api/game-creation-info';
     template: `
 
     <div>
-      <p>The Pyramid Draft aims to spread the decisions evenly throughout the draft process by offering smaller packs at first, and larger packs later. 
+      <h3 class="description">The Pyramid Draft aims to spread the decisions evenly throughout the draft process by offering smaller packs at first, and larger packs later. 
         In the beginning, you are open and need to consider all cards in a pack as options. 
         Towards the end, you have already committed to colors and archetypes, and need to consider fewer cards as options.
         Check out the Creator's wordpress 
         <a href="https://desolatelighthouse.wordpress.com/2020/12/21/pyramid-draft/" target="_blank" rel="noopener noreferrer">site!</a>
         None of this would exist without them.
-      </p>
-      <div>
-        <p class="pyramid-text">Enter the following info to start a new draft.</p>
-        <input type="text" [(ngModel)]="cubeIdInput" placeholder="Enter cubecobra cube id...">
-        <input type="text" [(ngModel)]="player1Name" placeholder="Enter your name...">
-        <input type="text" [(ngModel)]="player2Name" placeholder="Enter Player 2 name...">
-        <input type="number" [(ngModel)]="draftTokens" placeholder="Enter Super Pick # ...">
-        <button class= "create-game-button" (click)="createGame()">Create Game</button>
+      </h3>
+      <div class="new-draft-fields">
+        <h1 class="pyramid-text">Enter the following info to <span class="highlighted-word">start a new</span> draft.</h1>
+        <mat-form-field>
+          <mat-label>Enter cubecobra cube id...</mat-label>
+          <input matInput [(ngModel)]="cubeIdInput">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Enter your name...</mat-label>
+          <input matInput [(ngModel)]="player1Name">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Enter Player 2 name...</mat-label>
+          <input matInput [(ngModel)]="player2Name">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Enter Super Pick # ...</mat-label>
+          <input matInput type="number" [(ngModel)]="draftTokens">
+        </mat-form-field>
+        <button mat-flat-button class= "create-game-button" (click)="createGame()">Create Game</button>
       </div>
-      <div>
-        <p class="pyramid-text">Enter the following info to join a draft.</p>
-        <input type="text" [(ngModel)]="gameID" placeholder="Enter game id...">
-        <input type="text" [(ngModel)]="playerName" placeholder="Enter Player name...">
+      <div class="join-draft-fields">
+        <h1 class="pyramid-text">Or, enter the following info to <span class="highlighted-word">join</span> a draft.</h1>
+        <mat-form-field>
+          <mat-label>Enter game id...</mat-label>
+          <input matInput [(ngModel)]="gameID">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Enter Player name...</mat-label>
+          <input matInput [(ngModel)]="playerName">
+        </mat-form-field>
         <a [routerLink]="['/pyramid', this.gameID, this.playerName]">
-        <button (click)="fetchGame()">Find Game</button>
+        <button mat-flat-button (click)="fetchGame()">Find Game</button>
         </a>
       </div>
       <div>
@@ -72,7 +93,10 @@ import { GameCreationInfo } from '../../api/game-creation-info';
     imports: [
         CommonModule,
         FormsModule,
-        RouterModule
+        RouterModule,
+        MatButtonModule,
+        MatFormFieldModule, 
+        MatInputModule
     ]
 })
 export class PyramidLandingComponent {

@@ -33,6 +33,18 @@
   .mat-mdc-tab-group { 
     background-color: rgb(192, 192, 192, .7);
   }
+
+  .mat-mdc-tab-group.mat-mdc-tab-header {
+    font-size: xx-large;
+    /* height: 100px; */
+    display: flex;
+    overflow: hidden;
+    /* position: relative; */
+    flex-shrink: 0;
+    padding: 10px;
+    /* padding-bottom: 10px; */
+}
+
 /* 
   .draft-card {
     height: 100%;
@@ -88,4 +100,9 @@
     height: 100%;
     padding: 0;
     margin: 0;
+}
+
+
+::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field.mdc-text-field--filled {
+  padding-top: 20px;
 }

@@ -32,10 +32,10 @@ import { MatButtonModule } from '@angular/material/button';
           </a>
           <div class="center-buttons">
             <a [routerLink]="['/pyramid']">
-              <button mat-flat-button class="toolbar-button" color="primary">Pyramid Draft</button>
+              <button mat-flat-button class="toolbar-button" color="warn">Pyramid Draft</button>
             </a>
             <a [routerLink]="['/deckBuilder']">
-              <button mat-flat-button class="toolbar-button" color="primary">Deck Builder</button>
+              <button mat-flat-button class="toolbar-button" color="accent">Deck Builder</button>
             </a>
             <a [routerLink]="['/mulligan']">
               <button mat-flat-button class="toolbar-button" color="primary">Mulligan Sim</button>
@@ -47,7 +47,7 @@ import { MatButtonModule } from '@angular/material/button';
           </button>
         </mat-toolbar>
       </header>
-
+    
       <main class="content">
         <div class="content-container">
           <router-outlet></router-outlet>
@@ -70,10 +70,12 @@ import { MatButtonModule } from '@angular/material/button';
               <p>Scryfall</p>
             </div>
           </div>
+        
         </footer>
 
-      </div>
+        
 
+      </div>
   </main>
   `,
   providers: [
