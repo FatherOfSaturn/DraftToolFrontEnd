@@ -15,3 +15,21 @@
    width: auto;
    height: auto;
  }
+ 
+.draft-board {
+  font-size: xx-large;
+  background-color: var(--mdc-filled-button-container-color, var(--mat-app-primary));
+  color: var(--mdc-filled-button-label-text-color, var(--mat-app-on-primary));
+}
+
+::ng-deep .mat-mdc-tab-label-container {
+  padding:12px
+}
+
+::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field.mdc-text-field--filled {
+  padding-top: 20px;
+}
+
+.progress-bar {
+  padding-bottom: 20px;
+}

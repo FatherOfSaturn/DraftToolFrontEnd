@@ -147,7 +147,7 @@ export class PyramidLandingComponent {
 
     this.gameService.createGame(this.gameCreationInfo).then(item => {
       console.log("Created Game: ", item.gameID);
-      this.router.navigate(['/pyramid', this.gameID, this.player1Name]);
+      this.router.navigate(['/pyramidDraft', this.gameID, this.player1Name]);
     });
   }
 

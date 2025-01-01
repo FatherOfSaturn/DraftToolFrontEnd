@@ -18,33 +18,23 @@ const routeConfig: Routes = [
     title: 'Pyramid Landing Page'
   },
   {
-    path: 'pyramidDraft',
-    // path: 'pyramid/:gameID/:playerName',
+    // path: 'pyramidDraft',
+    path: 'pyramidDraft/:gameID/:playerName',
     component: PyramidDraftComponent,
     title: 'Pyramid Draft Started'
   },
-  // {
-  //   path: 'pyramid/:gameID/:playerName',
-  //   component: GridComponent,
-  //   title: 'Pyramid Draft In Progress'
-  // },
   {
-    // path: 'waiting/:gameID/:playerName',
-    path: "waiting",
+    path: 'waiting/:gameID/:playerName',
+    // path: "waiting",
     component: WaitingRoomComponent,
     title: 'Waiting'
   },
   {
-    path: 'deckBuilder',
-    // path: 'pyramid/:gameID/:playerName',
+    // path: 'deckBuilder',
+    path: 'deckBuilder/:gameID/:playerName',
     component: DeckBuilderComponent,
     title: 'Deck Builder'
   },
-  // {   NEW DECK BUILDER COMPONENT!!!!
-  //   path: 'endGame/:gameID/:playerName',
-  //   component: EndRoomComponent,
-  //   title: 'End'
-  // },
   {
     path: 'mulligan',
     component: MulliganComponent,

@@ -31,14 +31,6 @@ import { DialogContentComponent } from '../dialog-content/dialog-content.compone
              MatDialogModule
             ],
   template: `
-<!--     
-    <p>
-      <button (click)="createTextList('DRAFT')">Export Draft List as Text</button>
-    </p>
-    <p>
-      <button (click)="createTextList('DECK')">Export Deck List as Text</button>
-    </p>
--->
     <div class="main-container">
       <div>
         Export Deck List as:
@@ -155,7 +147,7 @@ import { DialogContentComponent } from '../dialog-content/dialog-content.compone
                 <img 
                   [src]="card.details.image_normal" 
                   alt="Image" 
-                  (click)="addCardToDeckList(card)" 
+                  (click)="removeCardFromDeckList(card)" 
                   class="grid-image" 
                   (mouseover)="handleHover(card)" 
                   (mouseout)="handleOffHover(card)">
@@ -204,27 +196,12 @@ export class DeckBuilderComponent {
     gameService.triggerGameEnd(this.gameID).then(item => {
       console.log("Ended Game: " + this.gameID);
     });
-    // gameService.getGameInfo(this.gameID).then(gameInfo => {
-    //   this.gameInfo = gameInfo;
-    //   this.player = this.gameInfo?.players.find(player => player.playerName === this.playerName);
-
-    //   this.player?.cardsDrafted.forEach(card => {
-    //     this.draftedMap!.set(card.cardID, card);
-    //   });
-    //   this.draftedList = this.draftedMap ? Array.from(this.draftedMap.values()) : [];
-    // });
-
-    
-    this.playerName = "Josh";
-    gameService.getFakeGameData().then(gameInfo => {
+    gameService.getGameInfo(this.gameID).then(gameInfo => {
       this.gameInfo = gameInfo;
-      this.gameID = gameInfo.gameID;
-      console.log("Grid gameInfo ID: " + this.gameInfo.gameID + "\nPlayer#: " + this.gameInfo.players.length);
       this.player = this.gameInfo?.players.find(player => player.playerName === this.playerName);
+      console.log("Grid gameInfo ID: " + this.gameInfo.gameID + "\nPlayer#: " + this.gameInfo.players.length);
 
       console.log(this.player!.cardsDrafted.length);
-      
-      // Do not use a map, it will remove multiple copies of a card
 
       this.player?.cardsDrafted.forEach(card => {
         this.draftedMap!.set(card.cardID, card);
@@ -232,6 +209,23 @@ export class DeckBuilderComponent {
       });
       this.draftedList = this.draftedMap ? Array.from(this.draftedMap.values()) : [];
     });
+
+    // DEV ENV CALLS
+    // this.playerName = "Josh";
+    // gameService.getFakeGameData().then(gameInfo => {
+    //   this.gameInfo = gameInfo;
+    //   this.gameID = gameInfo.gameID;
+    //   console.log("Grid gameInfo ID: " + this.gameInfo.gameID + "\nPlayer#: " + this.gameInfo.players.length);
+    //   this.player = this.gameInfo?.players.find(player => player.playerName === this.playerName);
+
+    //   console.log(this.player!.cardsDrafted.length);
+
+    //   this.player?.cardsDrafted.forEach(card => {
+    //     this.draftedMap!.set(card.cardID, card);
+    //     card.reveal = true;
+    //   });
+    //   this.draftedList = this.draftedMap ? Array.from(this.draftedMap.values()) : [];
+    // });
   }
 
   createTextList(desiredList: string) {
@@ -264,7 +258,7 @@ export class DeckBuilderComponent {
     if (!this.deckMap?.has(card.cardID)) {
 
       // Fix image issue for flip cards
-      if (card.details.image_flip !== undefined) {
+      if (card.details.image_flip !== null) {
         card.details.image_normal = card.details.image_small;
       }
 
@@ -287,7 +281,7 @@ export class DeckBuilderComponent {
   removeCardFromDeckList(card: Card) {
 
     // Fix image issue for flip cards
-    if (card.details.image_flip !== undefined) {
+    if (card.details.image_flip !== null) {
       card.details.image_normal = card.details.image_small;
     }
 
@@ -311,7 +305,9 @@ export class DeckBuilderComponent {
   
   handleHover(hoveredCard: Card) {
 
-    if (hoveredCard.details.image_flip !== undefined) {
+    if (hoveredCard.details.image_flip !== null) {
+      console.log("Card has a flip: " + hoveredCard.name);
+      console.log("Card has a image: " + hoveredCard.details.image_flip);
       // Probably not the cleanest but I dont use the small image anyway
       hoveredCard.details.image_small = hoveredCard.details.image_normal;
 
@@ -320,11 +316,8 @@ export class DeckBuilderComponent {
   }
 
   handleOffHover(offHoverCard: Card) {
-
-    if (offHoverCard.details.image_flip !== undefined) {
-
+    if (offHoverCard.details.image_flip !== null) {
       offHoverCard.details.image_normal = offHoverCard.details.image_small
-      
     }
   }
 

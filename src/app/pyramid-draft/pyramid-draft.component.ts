@@ -1,13 +1,10 @@
-import { PlayerStart } from '../../api/player-start';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Card } from '../../api/card'
 import { FormsModule } from '@angular/forms';
 import { GameRegisterService } from '../game-register.service';
-import { v4 as uuidv4 } from 'uuid';
 import { RouterModule } from '@angular/router';
-import { GameCreationInfo } from '../../api/game-creation-info';
 import { Player } from '../../api/player';
 import { GameInfo } from '../../api/game-info';
 import { CardPack } from '../../api/card-pack';
@@ -15,6 +12,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { environment } from '../../environments/environment';
 
 @Component({
     selector: 'app-pyramid-draft',
@@ -23,15 +21,15 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
     <div>
       <p>
-      Game ID: {{ this.gameId }}<br />
-      Draft Partner's Name: {{ this.partnerName }}<br />
-      Packs Left to Draft before switch: {{ this.packsLeftToDraft }}<br />
-      Number of Cards drafted: {{ player!.cardsDrafted.length }}<br />
-      Enable Super Pick(Select two Cards from this Pack):
+      <b>Game ID: </b>{{ this.gameId }}<br />
+      <b>Draft Partner's Name: </b>{{ this.partnerName }}, click <a [href]="partnerUrl" target="_blank">HERE</a> for a URL to give them. DO NOT PICK ANY CARDS FOR THEM >:(<br />
+      <b>Packs Left to Draft before switch: </b>{{ this.packsLeftToDraft }}<br />
+      <b>Number of Cards drafted: </b>{{ player!.cardsDrafted.length }}<br />
+      <b>Enable Super Pick(Select two Cards from this Pack): </b>
       <mat-slide-toggle class="double-draft-toggle" [disabled]="disableCheckboxFlag" [(ngModel)]="checkboxValue">
       </mat-slide-toggle>
       <br />
-      Super Picks Remaining: {{this.player?.doubleDraftPicksRemaining}} <br />
+      <b>Super Picks Remaining: </b>{{this.player?.doubleDraftPicksRemaining}} <br />
       </p>
       <mat-progress-bar mode="determinate" [value]="packsDraftedPercent" class="progress-bar"></mat-progress-bar>
 
@@ -86,16 +84,31 @@ export class PyramidDraftComponent {
   showHover: boolean = false;
   playerName: string;
   partnerName: string | undefined;
+  partnerUrl: string | undefined;
 
   constructor(private gameService: GameRegisterService, private router: Router, private _snackBar: MatSnackBar) {
     this.gameId = this.route.snapshot.params['gameID'];
     this.playerName = this.route.snapshot.params['playerName'];
 
-    console.log("Swapped to Grid, GameID: " + this.gameId + "\nPlayerName: " + this.playerName);
+    console.log("Started Pyramid Draft, GameID: " + this.gameId + "\nPlayerName: " + this.playerName);
 
+    // DEV ENV CALLS
+    // this.playerName = "Josh";
+    // gameService.getFakeGameData().then(gameInfo => {
+    //   this.gameInfo = gameInfo;
+    //   this.gameId = gameInfo.gameID;
+    //   console.log("Grid gameInfo ID: " + this.gameInfo.gameID + "\nPlayer#: " + this.gameInfo.players.length);
+    //   this.player = this.gameInfo?.players.find(player => player.playerName === this.playerName);
+    //   this.partnerName = this.gameInfo?.players.find(player => !(player.playerName === this.playerName))?.playerName;
+    //   this.currentPack = this.player?.cardPacks.find(pack => (pack.packNumber === this.player?.currentDraftPack));
+    //   this.packNumber = this.player?.currentDraftPack ?? 0;
+    //   console.log("Pack Number: " + this.packNumber);
+    //   this.evaluateCheckbox();
+    //   this.packsDraftedPercent = (this.packNumber / this.player!.cardPacks.length) * 100;
+    //   this.packsLeftToDraft = (this.player!.cardPacks.length - this.packNumber);
+    // });
 
-    this.playerName = "Josh";
-    gameService.getFakeGameData().then(gameInfo => {
+    gameService.getGameInfo(this.gameId).then(gameInfo => {
       this.gameInfo = gameInfo;
       this.gameId = gameInfo.gameID;
       console.log("Grid gameInfo ID: " + this.gameInfo.gameID + "\nPlayer#: " + this.gameInfo.players.length);
@@ -107,19 +120,8 @@ export class PyramidDraftComponent {
       this.evaluateCheckbox();
       this.packsDraftedPercent = (this.packNumber / this.player!.cardPacks.length) * 100;
       this.packsLeftToDraft = (this.player!.cardPacks.length - this.packNumber);
+      this.partnerUrl = `${environment.hostname}/pyramidDraft/${this.gameId}/${this.partnerName}`;
     });
-
-    // gameService.getGameInfo(this.gameId).then(gameInfo => {
-    //   this.gameInfo = gameInfo;
-    //   console.log("Grid gameInfo ID: " + this.gameInfo.gameID + "\nPlayer#: " + this.gameInfo.players.length);
-    //   this.player = this.gameInfo?.players.find(player => player.playerName === this.playerName);
-    //   this.partnerName = this.gameInfo?.players.find(player => !(player.playerName === this.playerName))?.playerName;
-    //   this.currentPack = this.player?.cardPacks.find(pack => (pack.packNumber === this.player?.currentDraftPack));
-    //   this.packNumber = this.player?.currentDraftPack ?? 0;
-    //   console.log("Pack Number: " + this.packNumber);
-    //   this.evaluateCheckbox();
-    //   this.packsDraftedPercent = (this.packNumber / this.player!.cardPacks.length) * 100;
-    // });
   }
 
   handleCardSelection(card: Card) {
@@ -143,6 +145,7 @@ export class PyramidDraftComponent {
 
       this.packNumber++;
       this.packsDraftedPercent = (this.packNumber / this.player!.cardPacks.length) * 100;
+      this.packsLeftToDraft--;
 
       console.log("GAME STATE: " + this.gameInfo?.gameState);
 
@@ -153,7 +156,7 @@ export class PyramidDraftComponent {
         this.router.navigate(['/waiting', this.gameId, this.player?.playerName]);
       }
       else if (this.packsDraftedPercent === 100 && (this.gameInfo?.gameState === 'GAME_MERGED' || this.gameInfo?.gameState === 'GAME_COMPLETE')) {
-        this.router.navigate(['/endGame', this.gameId, this.player?.playerName]);
+        this.router.navigate(['/deckBuilder', this.gameId, this.player?.playerName]);
       }
     }
   }
@@ -210,8 +213,9 @@ export class PyramidDraftComponent {
 
   handleHover(hoveredCard: Card) {
 
-    if (hoveredCard.details.image_flip !== undefined) {
+    if (hoveredCard.details.image_flip !== null) {
       console.log("Card has a flip: " + hoveredCard.name);
+      console.log("Card has a image: " + hoveredCard.details.image_flip);
       // Probably not the cleanest but I dont use the small image anyway
       hoveredCard.details.image_small = hoveredCard.details.image_normal;
 
@@ -220,7 +224,7 @@ export class PyramidDraftComponent {
   }
 
   handleOffHover(offHoverCard: Card) {
-    if (offHoverCard.details.image_flip !== undefined) {
+    if (offHoverCard.details.image_flip !== null) {
       offHoverCard.details.image_normal = offHoverCard.details.image_small
     }
   }
