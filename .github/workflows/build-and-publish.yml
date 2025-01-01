@@ -6,6 +6,7 @@ on:
       - main  # Trigger workflow on pushes to the main branch
       - prod-tests
       - old-version
+      - weird
 
 jobs:
   build-and-publish:
