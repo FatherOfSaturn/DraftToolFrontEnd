@@ -6,4 +6,5 @@ export interface Card {
     details: CardDetail;
     cmc: number;
     type_line: string;
+    reveal: boolean;
 }

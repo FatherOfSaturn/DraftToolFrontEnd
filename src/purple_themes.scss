@@ -23,6 +23,7 @@ html {
   // @include mat.all-component-themes($dark-theme);
   @include mat.core-theme($dark-theme);
   @include mat.button-theme($dark-theme);
+  @include mat.slide-toggle-theme($dark-theme);
   // @include mat.toolbar-theme($dark-theme);
 
   // Apply the light theme only when the user prefers light themes.
@@ -32,6 +33,7 @@ html {
     // @include mat.all-component-themes($light-theme);
     @include mat.core-color($light-theme);
     @include mat.button-color($light-theme);
+    @include mat.slide-toggle-theme($light-theme);
     // @include mat.toolbar-theme($light-theme);
   }
 }

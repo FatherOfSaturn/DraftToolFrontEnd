@@ -38,54 +38,61 @@ import { DialogContentComponent } from '../dialog-content/dialog-content.compone
     <p>
       <button (click)="createTextList('DECK')">Export Deck List as Text</button>
     </p>
-    <mat-slide-toggle class="cmc-sort-toggle"  [(ngModel)]="sortByCmcFlag">Sort Lists by CMC?</mat-slide-toggle> -->
-
-    <p>Export Deck List as:
-      <mat-form-field>
-        <mat-label>Select</mat-label>
-        <mat-select>
-          <mat-option value="one">First option</mat-option>
-          <mat-option value="two">Second option</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <button mat-flat-button>Export</button>
-      Export Draft Pool as:
-      <mat-form-field>
-        <mat-label>Select</mat-label>
-        <mat-select>
-          <mat-option value="one">First option</mat-option>
-          <mat-option value="two">Second option</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <button mat-flat-button>Export</button>
-      <button mat-flat-button class="upload button" (click)="openDialog()">Upload Deck List</button>
-    </p>
+-->
+    <div class="main-container">
+      <div>
+        Export Deck List as:
+        <mat-form-field>
+          <mat-label>Deck List</mat-label>
+          <mat-select>
+            <mat-option value="Text">Text</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button (click)="createTextList('DECK')">Export Deck List</button>
+        Export Draft Pool as:
+        <mat-form-field>
+          <mat-label>Draft Pool</mat-label>
+          <mat-select>
+            <mat-option value="Text">Text</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button (click)="createTextList('DRAFT')">Export Draft List</button>
+      </div>
+      <!-- Right-aligned items -->
+      <div class="right-aligned">
+        <button mat-flat-button class="upload button" (click)="openDialog()">Upload Deck List</button>
+        <mat-slide-toggle class="cmc-sort-toggle" [(ngModel)]="sortByCmcFlag">Sort Lists by CMC?</mat-slide-toggle>
+      </div>
+    </div>
 
     <mat-grid-list cols="4" rowHeight="2:1">
       <mat-grid-tile class="mat-grid-tile tileOne">
         <ul class="left-align">
           <div class="filterBoxes">
             <li>
-              <mat-checkbox>Creatures</mat-checkbox>
+              <mat-checkbox [(ngModel)]="creatureCheckbox" (change)="checkboxMethod()">Creatures</mat-checkbox>
             </li> 
+            <li>
+              <mat-checkbox [(ngModel)]="instantCheckbox" (change)="checkboxMethod()">Instants</mat-checkbox>
+            </li>
+            <li>
+              <mat-checkbox [(ngModel)]="sorceryCheckbox" (change)="checkboxMethod()">Sorceries</mat-checkbox>
+            </li>
+            <li>
+              <mat-checkbox [(ngModel)]="enchantmentCheckbox" (change)="checkboxMethod()">Enchantment</mat-checkbox>
+            </li>
+            <li>
+              <mat-checkbox [(ngModel)]="landCheckbox" (change)="checkboxMethod()">Land</mat-checkbox>
+            </li>
+            <li>
+              <mat-checkbox [(ngModel)]="artifactCheckbox" (change)="checkboxMethod()">Artifact</mat-checkbox>
+            </li>
           </div>
-          <li>
-          <mat-checkbox>Instants</mat-checkbox>
-          </li>
-          <li>
-          <mat-checkbox>Sorceries</mat-checkbox>
-          </li>
-          <li>
-          <mat-checkbox>Enchantment</mat-checkbox>
-          </li>
-          <li>
-          <mat-checkbox>Land</mat-checkbox>
-          </li>
         </ul>
       </mat-grid-tile>
       <mat-grid-tile>
       <div>
-        <apx-chart
+        <apx-chart class = "color-chart"
           [series]="colorChartData"
           [chart]="pieChartType"
           [title]="colorChartTitle"
@@ -97,7 +104,7 @@ import { DialogContentComponent } from '../dialog-content/dialog-content.compone
       </mat-grid-tile>
       <mat-grid-tile>
       <div>
-        <apx-chart
+        <apx-chart class = "type-chart"
           [series]="cardTypeData"
           [chart]="pieChartType"
           [title]="cardTypesChartTitle"
@@ -109,7 +116,7 @@ import { DialogContentComponent } from '../dialog-content/dialog-content.compone
       </mat-grid-tile>
       <mat-grid-tile>
       <div>
-        <apx-chart
+        <apx-chart class = "mana-curve-chart"
           [series]="[ { name: 'CMC', data: cmcBarGraphData } ]"
           [chart]="cmcChartDetails"
           [title]="cmcChartTitle"
@@ -122,26 +129,42 @@ import { DialogContentComponent } from '../dialog-content/dialog-content.compone
       </mat-grid-tile>
     </mat-grid-list>
 
-    <mat-tab-group>
+    <mat-tab-group class="draft-area">
       <mat-tab label="Drafted Pool">
         <div class="grid-container">
-          <div class="grid-item" *ngFor="let card of this.draftedList">
-            <div class="image-container">
-              <img [src]="card.details.image_normal" alt="Image" (click)="addCardToDeckList(card)" class = "grid-image" (mouseover)="handleHover(card)" (mouseout)="handleOffHover(card)">
+          <ng-container class="grid-item" *ngFor="let card of this.draftedList">
+            <div class="grid-item" *ngIf="card.reveal">
+              <div class="image-container">
+                <img 
+                  [src]="card.details.image_normal" 
+                  alt="Image" 
+                  (click)="addCardToDeckList(card)" 
+                  class="grid-image" 
+                  (mouseover)="handleHover(card)" 
+                  (mouseout)="handleOffHover(card)">
+              </div>
             </div>
-          </div>
+          </ng-container>
         </div>
       </mat-tab>
       <mat-tab label="Decklist">
-        <div class="grid-container">
-          <div class="grid-item" *ngFor="let card of this.deckList">
-            <div class="image-container">
-              <img [src]="card.details.image_normal" alt="Image" class="grid-image" (click)="removeCardFromDeckList(card)" (mouseover)="handleHover(card)" (mouseout)="handleOffHover(card)">
+      <div class="grid-container">
+          <ng-container class="grid-item" *ngFor="let card of this.deckList">
+            <div class="grid-item" *ngIf="card.reveal">
+              <div class="image-container">
+                <img 
+                  [src]="card.details.image_normal" 
+                  alt="Image" 
+                  (click)="addCardToDeckList(card)" 
+                  class="grid-image" 
+                  (mouseover)="handleHover(card)" 
+                  (mouseout)="handleOffHover(card)">
+              </div>
             </div>
-          </div>
+          </ng-container>
         </div>
       </mat-tab>
-    </mat-tab-group> 
+    </mat-tab-group>
   `,
   styleUrl: './deck-builder.component.scss'
 })
@@ -153,12 +176,20 @@ export class DeckBuilderComponent {
   gameInfo: GameInfo | undefined;
   player: Player | undefined;
   sortByCmcFlag: boolean = false;
+  exportType: string | undefined;
 
   draftedMap: Map<string, Card>;
   draftedList: Card[];
 
   deckMap: Map<string, Card> | undefined;
   deckList: Card[];
+
+  creatureCheckbox: boolean = false;
+  instantCheckbox: boolean = false;
+  sorceryCheckbox: boolean = false;
+  enchantmentCheckbox: boolean = false;
+  landCheckbox: boolean = false;
+  artifactCheckbox: boolean = false;
   
   constructor(private gameService: GameRegisterService, private router: Router,
               public dialog: MatDialog) {
@@ -197,6 +228,7 @@ export class DeckBuilderComponent {
 
       this.player?.cardsDrafted.forEach(card => {
         this.draftedMap!.set(card.cardID, card);
+        card.reveal = true;
       });
       this.draftedList = this.draftedMap ? Array.from(this.draftedMap.values()) : [];
     });
@@ -210,7 +242,9 @@ export class DeckBuilderComponent {
       exportList = this.player?.cardsDrafted!;
     } 
     else if (desiredList === 'DECK') {
+      console.log("adfadgad")
       exportList = this.deckList;
+      console.log(exportList);
     }
 
     // Convert JSON object to a formatted string
@@ -299,7 +333,7 @@ export class DeckBuilderComponent {
     // Create better Vars/Organization for the Graphs to use, also make vars for the pie charts
     // Add a conditional to this to either add or remove a card from the charts to call
 
-    console.log("cmc:" + card.cmc);
+    // console.log("cmc:" + card.cmc);
 
     if (remove) {
       // remove from the graphs
@@ -330,24 +364,37 @@ export class DeckBuilderComponent {
 
   determineManaCost(card: Card, remove: boolean) {
     // how does phyrexian mana look?
+    let addedColorless = false;
+    let addedColor = false;
     card.details.parsed_cost.forEach((cost) => {
+
       switch (cost) {
         case 'w':
           this.whiteCardCount += remove ? -1 : 1;
+          addedColor = true;
           break;
         case 'u':
           this.blueCardCount += remove ? -1 : 1;
+          addedColor = true;
           break;
         case 'b':
           this.blackCardCount += remove ? -1 : 1;
+          addedColor = true;
           break;
         case 'r':
           this.redCardCount += remove ? -1 : 1;
+          addedColor = true;
           break;
         case 'g':
           this.greenCardCount += remove ? -1 : 1;
+          addedColor = true;
           break;
         default:
+          // console.log("added Color: ", addedColor, "added Colorless: ", addedColorless, "cost: ", cost);
+          if (!addedColorless && !addedColor && ((!isNaN(Number(cost)) || cost == "" )) ) {
+            this.colorlessCardCount += remove ? -1 : 1;
+            addedColorless = true;
+          }
           break;
       }
     });
@@ -465,7 +512,7 @@ export class DeckBuilderComponent {
     type: 'pie',
   };
   colorChartTitle: ApexTitleSubtitle = {
-    text: 'Color Breakdown Chart',
+    text: 'Color Breakdown Chart(Mana Pips)',
   };
 // *****************************************************************
 // **********************COLOR GRAPH END****************************
@@ -531,6 +578,55 @@ chartOptions = {
 
   openDialog(): void {
     this.dialog.open(DialogContentComponent);
+  }
+  
+  checkboxMethod() {
+
+      let words = [];
+      let allUnchecked = true;
+      if (this.creatureCheckbox) {
+        words.push("creature");
+        allUnchecked = false;
+      }
+      if (this.instantCheckbox) {
+        words.push("instant");
+        allUnchecked = false;
+      }
+      if (this.sorceryCheckbox) {
+        words.push("sorcery");
+        allUnchecked = false;
+      }
+      if (this.enchantmentCheckbox) {
+        words.push("enchantment");
+        allUnchecked = false;
+      }
+      if (this.landCheckbox) {
+        words.push("land");
+        allUnchecked = false;
+      }
+      if (this.artifactCheckbox) {
+        words.push("artifact");
+        allUnchecked = false;
+      }
+
+      this.draftedList.forEach(card => {
+        if (words.some(word => card.type_line.toLowerCase().includes(word)) || allUnchecked) {
+          card.reveal = true;
+        }
+        else {
+          card.reveal = false;
+        }
+        
+      });
+      
+      this.deckList.forEach(card => {
+        if (words.some(word => card.type_line.toLowerCase().includes(word)) || allUnchecked) {
+          card.reveal = true;
+        }
+        else {
+          card.reveal = false;
+        }
+      });
   }
 
 }
