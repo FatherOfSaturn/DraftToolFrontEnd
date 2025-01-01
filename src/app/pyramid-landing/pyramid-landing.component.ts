@@ -101,7 +101,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 })
 export class PyramidLandingComponent {
 
-  featureList = ["Feature 1", "Feature 2", "Feature 3", "Feature 4"];
+  featureList = ["Configurable Pack Sizes", 
+                 "User Accounts / Ability to save decks", 
+                 "Other Draft Types", 
+                 "Ability to add basic lands", 
+                 "Working Mulligan Sim, Opening Hand %'s",
+                 "Color Filtering in Deck Builder", 
+                 "Customizable Themes", 
+                 "Redesign/Support for Mobile",
+                 "Dev Story / Tech Explaination",
+                 "Email Support",
+                 "Discord Server"];
 
   route: ActivatedRoute = inject(ActivatedRoute);
   cardPackList: Card[] = [];

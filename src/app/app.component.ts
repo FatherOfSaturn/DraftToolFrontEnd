@@ -66,8 +66,9 @@ import { MatButtonModule } from '@angular/material/button';
             </div>
             <div class="footer-links">
               <h3>Helpful Links</h3>
-              <p>Cube Cobra</p>
-              <p>Scryfall</p>
+              <p><a href="https://cubecobra.com" target="_blank" rel="noopener noreferrer">Cube Cobra</a></p>
+              <p><a href="https://scryfall.com" target="_blank" rel="noopener noreferrer">Scryfall</a></p>
+              <p><a href="https://www.archidekt.com" target="_blank" rel="noopener noreferrer">Archdekt</a></p>
             </div>
           </div>
         
