@@ -71,11 +71,7 @@ import { MatButtonModule } from '@angular/material/button';
               <p><a href="https://www.archidekt.com" target="_blank" rel="noopener noreferrer">Archdekt</a></p>
             </div>
           </div>
-        
         </footer>
-
-        
-
       </div>
   </main>
   `,
