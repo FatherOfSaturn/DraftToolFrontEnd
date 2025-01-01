@@ -5,4 +5,6 @@ export interface Card {
     name: string;
     details: CardDetail;
     cmc: number;
+    type_line: string;
+    reveal: boolean;
 }

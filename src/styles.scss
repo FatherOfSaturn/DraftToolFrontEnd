@@ -1,0 +1,168 @@
+/* You can add global styles to this file, and also import other style files */
+
+// @import "@angular/material/prebuilt-themes/deeppurple-amber.css";
+@use 'purple_themes.scss';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+/* 
+
+cool dark background
+
+--text: hsl(229, 73%, 93%);
+--background: hsl(229, 72%, 6%);
+--primary: hsl(226, 74%, 75%);
+--secondary: hsl(273, 74%, 30%);
+--accent: hsl(293, 73%, 54%);
+
+--text: hsl(288, 12%, 92%);
+--background: hsl(285, 33%, 2%);
+--primary: hsl(287, 55%, 71%);
+--secondary: hsl(287, 77%, 30%);
+--accent: hsl(287, 99%, 56%);
+
+--linearPrimarySecondary: linear-gradient(hsl(287, 55%, 71%), hsl(287, 77%, 30%));
+--linearPrimaryAccent: linear-gradient(hsl(287, 55%, 71%), hsl(287, 99%, 56%));
+--linearSecondaryAccent: linear-gradient(hsl(287, 77%, 30%), hsl(287, 99%, 56%));
+--radialPrimarySecondary: radial-gradient(hsl(287, 55%, 71%), hsl(287, 77%, 30%));
+--radialPrimaryAccent: radial-gradient(hsl(287, 55%, 71%), hsl(287, 99%, 56%));
+--radialSecondaryAccent: radial-gradient(hsl(287, 77%, 30%), hsl(287, 99%, 56%));
+
+
+Purple Light
+--text: hsl(285, 27%, 6%);
+--background: hsl(300, 25%, 98%);
+--primary: hsl(284, 30%, 52%);
+--secondary: hsl(283, 33%, 70%);
+--accent: hsl(284, 36%, 62%);
+
+--linearPrimarySecondary: linear-gradient(hsl(284, 30%, 52%), hsl(283, 33%, 70%));
+--linearPrimaryAccent: linear-gradient(hsl(284, 30%, 52%), hsl(284, 36%, 62%));
+--linearSecondaryAccent: linear-gradient(hsl(283, 33%, 70%), hsl(284, 36%, 62%));
+--radialPrimarySecondary: radial-gradient(hsl(284, 30%, 52%), hsl(283, 33%, 70%));
+--radialPrimaryAccent: radial-gradient(hsl(284, 30%, 52%), hsl(284, 36%, 62%));
+--radialSecondaryAccent: radial-gradient(hsl(283, 33%, 70%), hsl(284, 36%, 62%));
+
+
+
+
+Greens
+--text: hsl(124, 94%, 94%);
+--background: hsl(127, 93%, 5%);
+--primary: hsl(129, 92%, 71%);
+--secondary: hsl(163, 92%, 33%);
+--accent: hsl(171, 91%, 55%);
+--linearPrimarySecondary: linear-gradient(hsl(129, 92%, 71%), hsl(163, 92%, 33%));
+--linearPrimaryAccent: linear-gradient(hsl(129, 92%, 71%), hsl(171, 91%, 55%));
+--linearSecondaryAccent: linear-gradient(hsl(163, 92%, 33%), hsl(171, 91%, 55%));
+--radialPrimarySecondary: radial-gradient(hsl(129, 92%, 71%), hsl(163, 92%, 33%));
+--radialPrimaryAccent: radial-gradient(hsl(129, 92%, 71%), hsl(171, 91%, 55%));
+--radialSecondaryAccent: radial-gradient(hsl(163, 92%, 33%), hsl(171, 91%, 55%));
+
+
+green light (mint)
+--text: hsl(160, 43%, 3%);
+--background: hsl(150, 50%, 98%);
+--primary: hsl(154, 57%, 53%);
+--secondary: hsl(155, 65%, 73%);
+--accent: hsl(155, 72%, 63%);
+--linearPrimarySecondary: linear-gradient(hsl(154, 57%, 53%), hsl(155, 65%, 73%));
+--linearPrimaryAccent: linear-gradient(hsl(154, 57%, 53%), hsl(155, 72%, 63%));
+--linearSecondaryAccent: linear-gradient(hsl(155, 65%, 73%), hsl(155, 72%, 63%));
+--radialPrimarySecondary: radial-gradient(hsl(154, 57%, 53%), hsl(155, 65%, 73%));
+--radialPrimaryAccent: radial-gradient(hsl(154, 57%, 53%), hsl(155, 72%, 63%));
+--radialSecondaryAccent: radial-gradient(hsl(155, 65%, 73%), hsl(155, 72%, 63%));
+
+
+
+Blues Dark
+
+--text: hsl(185, 67%, 93%);
+--background: hsl(191, 68%, 6%);
+--primary: hsl(190, 67%, 73%);
+--secondary: hsl(239, 67%, 34%);
+--accent: hsl(254, 67%, 56%);
+
+--linearPrimarySecondary: linear-gradient(hsl(190, 67%, 73%), hsl(239, 67%, 34%));
+--linearPrimaryAccent: linear-gradient(hsl(190, 67%, 73%), hsl(254, 67%, 56%));
+--linearSecondaryAccent: linear-gradient(hsl(239, 67%, 34%), hsl(254, 67%, 56%));
+--radialPrimarySecondary: radial-gradient(hsl(190, 67%, 73%), hsl(239, 67%, 34%));
+--radialPrimaryAccent: radial-gradient(hsl(190, 67%, 73%), hsl(254, 67%, 56%));
+--radialSecondaryAccent: radial-gradient(hsl(239, 67%, 34%), hsl(254, 67%, 56%));
+
+Blues Light
+--text: hsl(185, 67%, 7%);
+--background: hsl(191, 68%, 94%);
+--primary: hsl(190, 67%, 27%);
+--secondary: hsl(239, 67%, 66%);
+--accent: hsl(254, 67%, 44%);
+--linearPrimarySecondary: linear-gradient(hsl(190, 67%, 27%), hsl(239, 67%, 66%));
+--linearPrimaryAccent: linear-gradient(hsl(190, 67%, 27%), hsl(254, 67%, 44%));
+--linearSecondaryAccent: linear-gradient(hsl(239, 67%, 66%), hsl(254, 67%, 44%));
+--radialPrimarySecondary: radial-gradient(hsl(190, 67%, 27%), hsl(239, 67%, 66%));
+--radialPrimaryAccent: radial-gradient(hsl(190, 67%, 27%), hsl(254, 67%, 44%));
+--radialSecondaryAccent: radial-gradient(hsl(239, 67%, 66%), hsl(254, 67%, 44%));
+
+teal dark
+--text: hsl(192, 12%, 92%);
+--background: hsl(195, 40%, 2%);
+--primary: hsl(192, 52%, 47%);
+--secondary: hsl(192, 72%, 28%);
+--accent: hsl(192, 91%, 36%);
+--linearPrimarySecondary: linear-gradient(hsl(192, 52%, 47%), hsl(192, 72%, 28%));
+--linearPrimaryAccent: linear-gradient(hsl(192, 52%, 47%), hsl(192, 91%, 36%));
+--linearSecondaryAccent: linear-gradient(hsl(192, 72%, 28%), hsl(192, 91%, 36%));
+--radialPrimarySecondary: radial-gradient(hsl(192, 52%, 47%), hsl(192, 72%, 28%));
+--radialPrimaryAccent: radial-gradient(hsl(192, 52%, 47%), hsl(192, 91%, 36%));
+--radialSecondaryAccent: radial-gradient(hsl(192, 72%, 28%), hsl(192, 91%, 36%));
+
+
+teal light 
+--text: hsl(192, 13%, 8%);
+--background: hsl(195, 33%, 98%);
+--primary: hsl(192, 52%, 53%);
+--secondary: hsl(192, 72%, 72%);
+--accent: hsl(192, 91%, 64%);
+
+--linearPrimarySecondary: linear-gradient(hsl(192, 52%, 53%), hsl(192, 72%, 72%));
+--linearPrimaryAccent: linear-gradient(hsl(192, 52%, 53%), hsl(192, 91%, 64%));
+--linearSecondaryAccent: linear-gradient(hsl(192, 72%, 72%), hsl(192, 91%, 64%));
+--radialPrimarySecondary: radial-gradient(hsl(192, 52%, 53%), hsl(192, 72%, 72%));
+--radialPrimaryAccent: radial-gradient(hsl(192, 52%, 53%), hsl(192, 91%, 64%));
+--radialSecondaryAccent: radial-gradient(hsl(192, 72%, 72%), hsl(192, 91%, 64%));
+
+
+red dark
+--text: hsl(0, 17%, 93%);
+--background: hsl(0, 40%, 2%);
+--primary: hsl(4, 57%, 46%);
+--secondary: hsl(4, 77%, 29%);
+--accent: hsl(4, 96%, 38%);
+
+--linearPrimarySecondary: linear-gradient(hsl(4, 57%, 46%), hsl(4, 77%, 29%));
+--linearPrimaryAccent: linear-gradient(hsl(4, 57%, 46%), hsl(4, 96%, 38%));
+--linearSecondaryAccent: linear-gradient(hsl(4, 77%, 29%), hsl(4, 96%, 38%));
+--radialPrimarySecondary: radial-gradient(hsl(4, 57%, 46%), hsl(4, 77%, 29%));
+--radialPrimaryAccent: radial-gradient(hsl(4, 57%, 46%), hsl(4, 96%, 38%));
+--radialSecondaryAccent: radial-gradient(hsl(4, 77%, 29%), hsl(4, 96%, 38%));
+
+red light
+--text: hsl(0, 17%, 7%);
+--background: hsl(0, 33%, 98%);
+--primary: hsl(4, 57%, 54%);
+--secondary: hsl(4, 77%, 71%);
+--accent: hsl(4, 96%, 62%);
+
+--linearPrimarySecondary: linear-gradient(hsl(4, 57%, 54%), hsl(4, 77%, 71%));
+--linearPrimaryAccent: linear-gradient(hsl(4, 57%, 54%), hsl(4, 96%, 62%));
+--linearSecondaryAccent: linear-gradient(hsl(4, 77%, 71%), hsl(4, 96%, 62%));
+--radialPrimarySecondary: radial-gradient(hsl(4, 57%, 54%), hsl(4, 77%, 71%));
+--radialPrimaryAccent: radial-gradient(hsl(4, 57%, 54%), hsl(4, 96%, 62%));
+--radialSecondaryAccent: radial-gradient(hsl(4, 77%, 71%), hsl(4, 96%, 62%));
+
+
+
+
+*/

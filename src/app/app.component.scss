@@ -1,0 +1,87 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  background-color: hsl(229, 72%, 6%);
+  // border-color: hsl(0, 17%, 93%);
+  // outline-color: hsl(0, 17%, 93%);
+  // border-bottom-color: hsl(0, 17%, 93%);
+}
+
+.content {
+  color: hsl(229, 73%, 93%);
+}
+
+.center-buttons {
+  display: flex;
+  gap: 16px;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.home-button {
+  color: white;
+}
+.account-button {
+  color: pink;
+}
+
+.toolbar-button {
+  font-size: larger;
+}
+
+.account-button {
+  margin-left: auto;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+  // background: linear-gradient(to right, #D9D9D9, #9400AE); 
+  // background: radial-gradient(hsl(287, 55%, 71%), hsl(287, 77%, 30%));
+  // background: radial-gradient(hsl(287, 55%, 71%), hsl(287, 99%, 56%));
+  background: hsl(229, 72%, 6%);
+}
+
+.footer {
+  background-color: gray;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.footer-icons mat-icon {
+  margin: 0 8px;
+  font-size: 24px;
+  color: #333;
+}
+
+.footer-links h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.footer-links p {
+  margin: 4px 0;
+  color: #333;
+  font-size: 14px;
+}
+
+.social-icon {
+  width: 24px;
+  height: 24px;
+  margin: 0 8px;
+  vertical-align: middle;
+}

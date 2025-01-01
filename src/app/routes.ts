@@ -1,30 +1,44 @@
 import { Routes } from '@angular/router';
-import { PyramidComponent } from './pyramid/pyramid.component';
-import { AppComponent } from './app.component';
-import { GridComponent } from './grid/grid.component';
+import { PyramidLandingComponent } from './pyramid-landing/pyramid-landing.component';
 import { WaitingRoomComponent } from './waiting-room/waiting-room.component';
-import { EndRoomComponent } from './end-room/end-room.component';
+import { WelcomeComponent } from './welcome/welcome.component';
+import { PyramidDraftComponent } from './pyramid-draft/pyramid-draft.component';
+import { DeckBuilderComponent } from './deck-builder.component/deck-builder.component';
+import { MulliganComponent } from './mulligan.component/mulligan.component';
 
 const routeConfig: Routes = [
   {
     path: '',
-    component: PyramidComponent,
+    component: WelcomeComponent, // Set AppComponent as the root component
     title: 'Home page'
   },
   {
-    path: 'pyramid/:gameID/:playerName',
-    component: GridComponent,
-    title: 'Pyramid Draft In Progress'
+    path: 'pyramid',
+    component: PyramidLandingComponent,
+    title: 'Pyramid Landing Page'
+  },
+  {
+    // path: 'pyramidDraft',
+    path: 'pyramidDraft/:gameID/:playerName',
+    component: PyramidDraftComponent,
+    title: 'Pyramid Draft Started'
   },
   {
     path: 'waiting/:gameID/:playerName',
+    // path: "waiting",
     component: WaitingRoomComponent,
     title: 'Waiting'
   },
   {
-    path: 'endGame/:gameID/:playerName',
-    component: EndRoomComponent,
-    title: 'End'
+    // path: 'deckBuilder',
+    path: 'deckBuilder/:gameID/:playerName',
+    component: DeckBuilderComponent,
+    title: 'Deck Builder'
+  },
+  {
+    path: 'mulligan',
+    component: MulliganComponent,
+    title: 'Mulligan'
   }
 ];
 

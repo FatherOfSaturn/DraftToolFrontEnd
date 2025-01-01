@@ -1,96 +1,89 @@
-import { GameRegisterService } from './game-register.service';
-import { Component, Renderer2 } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { APP_INITIALIZER } from '@angular/core';
-import { AppConfigService } from './app-config.service';
-import { HttpClientModule } from '@angular/common/http';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
-
-interface Background {
-  value: string,
-  viewValue: string;
-}
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterModule, 
-            MatIconModule, 
-            HttpClientModule,
+            MatIconModule,
             MatSelectModule,
             MatFormFieldModule,
             MatInputModule,
             FormsModule,
-            MatToolbarModule],
+            MatToolbarModule,
+            MatButtonModule],
   template: `
+  
   <main>
-    <header>
-      <mat-toolbar class = "toolbar">     
-        <a [routerLink]="['/']">
-          <button mat-button class="home-button">
-            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
+    <div class="page-container">
+      <header>
+        <mat-toolbar class="toolbar" color="primary">
+          <a [routerLink]="['/']">
+            <button mat-icon-button class="home-button" aria-label="Example Home Icon">
+              <mat-icon class="large-icon" color="accent">home</mat-icon>
+            </button>
+          </a>
+          <div class="center-buttons">
+            <a [routerLink]="['/pyramid']">
+              <button mat-flat-button class="toolbar-button" color="warn">Pyramid Draft</button>
+            </a>
+            <a [routerLink]="['/deckBuilder']">
+              <button mat-flat-button class="toolbar-button" color="accent">Deck Builder</button>
+            </a>
+            <a [routerLink]="['/mulligan']">
+              <button mat-flat-button class="toolbar-button" color="primary">Mulligan Sim</button>
+            </a>
+            <button mat-flat-button class="toolbar-button"  color="primary">Battle Box</button>
+          </div>
+          <button mat-icon-button aria-label="User profile" class="account-button">
+            <mat-icon color="accent">account_circle</mat-icon>
           </button>
-        </a>
-        <span class="toolbar-spacer"></span>
-        
-        <mat-form-field class="background-field">
-          <mat-label>Background</mat-label>
-          <mat-select [(ngModel)]="selectedBackground" name="Backgrounds" (selectionChange)="changeBackground(selectedBackground)">
-            @for (background of backgrounds; track background) {
-              <mat-option [value]="background.value">{{background.viewValue}}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-      </mat-toolbar>
-    </header>
-    <section class="content">
-      <router-outlet></router-outlet>
-    </section>
-    <mat-toolbar class="footer">
-      <span class="signature">J. Holden</span>
-      <a mat-button href="https://github.com/FatherOfSaturn" class="github-text">Github</a>
-      <span class="spacer"></span>
-      <span>
-        <a mat-button class="wizards-text">All rights of Magic The Gathering is owned by Wizards</a>
-      </span>
-    </mat-toolbar>
+        </mat-toolbar>
+      </header>
+    
+      <main class="content">
+        <div class="content-container">
+          <router-outlet></router-outlet>
+        </div>
+      </main>
+
+        <footer class="footer">
+          <div class="footer-content">
+            <div class="footer-icons">
+              <img src="assets/icons/gmail.svg" alt="GitHub" class="social-icon" />
+              <img src="assets/icons/discord.svg" alt="GitHub" class="social-icon" />
+              <a href="https://github.com/FatherOfSaturn" target="_blank" rel="noopener noreferrer">
+                <img src="assets/icons/github.svg" alt="GitHub" class="social-icon" />
+              </a>
+              <img src="assets/icons/linkedin.svg" alt="LinkedIn" class="social-icon" />
+            </div>
+            <div class="footer-links">
+              <h3>Helpful Links</h3>
+              <p><a href="https://cubecobra.com" target="_blank" rel="noopener noreferrer">Cube Cobra</a></p>
+              <p><a href="https://scryfall.com" target="_blank" rel="noopener noreferrer">Scryfall</a></p>
+              <p><a href="https://www.archidekt.com" target="_blank" rel="noopener noreferrer">Archdekt</a></p>
+            </div>
+          </div>
+        </footer>
+      </div>
   </main>
   `,
   providers: [
-    // {
-    //   provide: APP_INITIALIZER,
-    //   multi: true,
-    //   deps: [AppConfigService],
-    //   useFactory: (appConfigService: AppConfigService) => {
-    //     return () => {
-    //       //Make sure to return a promise!
-    //       return appConfigService.loadAppConfig();
-    //     };
-    //   }
-    // }
   ],
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   title = 'draft-tool';
   textInput: string = '';
   selectedBackground: string = "url(/assets/Lands_Background.jpg)";
-  backgrounds: Background[] = [
-    { value: 'url(/assets/Griselbrand.jpg)', viewValue: "Griselbrand" },
-    { value: 'url(/assets/Lands_Background.jpg)', viewValue: "Lands" },
-    { value: 'url(/assets/Serra_Angel.png)', viewValue: "Serra" },
-    { value: 'url(/assets/Rakdos.png)', viewValue: "Rakdos" },
-    { value: 'url(/assets/Counterspell.jpg)', viewValue: "Counterspell" }
-  ]
 
-  constructor(private renderer: Renderer2) {}
+  constructor() {}
 
-  changeBackground(imageLink: string) {
-    this.renderer.setStyle(document.body, 'background-image', imageLink);
-  }
 }

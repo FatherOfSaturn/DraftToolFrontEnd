@@ -1,60 +1,75 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // Import FormsModule
-import { Player } from '../../api/player';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Card } from '../../api/card'
+import { FormsModule } from '@angular/forms';
 import { GameRegisterService } from '../game-register.service';
+import { RouterModule } from '@angular/router';
+import { Player } from '../../api/player';
 import { GameInfo } from '../../api/game-info';
 import { CardPack } from '../../api/card-pack';
-import { Card } from '../../api/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { environment } from '../../environments/environment';
 
 @Component({
-  selector: 'app-grid',
-  standalone: true,
-  imports: [ CommonModule,
-             MatProgressBarModule,
-             FormsModule,
-             MatSlideToggleModule,
-             MatTabsModule,
-             MatSnackBarModule
-            ],
-  template: `
-    <mat-progress-bar mode="determinate" [value]="packsDraftedPercent" class="progress-bar"></mat-progress-bar>
-    <mat-slide-toggle class="double-draft-toggle" [disabled]="disableCheckboxFlag" [(ngModel)]="checkboxValue">
-      <span class ="draft-pick-text">
-      Click to enable double draft Pick, you have {{this.player?.doubleDraftPicksRemaining}} remaining.
-      </span>
-    </mat-slide-toggle>
-    <p class="game-text">Your Game ID is {{this.gameId}}, Your Draft partner's name is {{this.partnerName}}. Current Pack: {{this.packNumber}}</p>
-    <mat-tab-group class="draft-board">
-      <!-- Adding a class to this causes the progress bar stying to go away -->
-      <mat-tab class="header"label="Draft Pack">
-        <div class="grid-container">
-          <div class="grid-item" *ngFor="let card of currentPack?.cardsInPack">
-            <div class="image-container">
-              <img [src]="card.details.image_normal" alt="Image" (click)="handleCardSelection(card)" class = "grid-image" (mouseover)="handleHover(card)" (mouseout)="handleOffHover(card)">
+    selector: 'app-pyramid-draft',
+    standalone: true,
+    template: `
+
+    <div>
+      <p>
+      <b>Game ID: </b>{{ this.gameId }}<br />
+      <b>Draft Partner's Name: </b>{{ this.partnerName }}, click <a [href]="partnerUrl" target="_blank">HERE</a> for a URL to give them. DO NOT PICK ANY CARDS FOR THEM >:(<br />
+      <b>Packs Left to Draft before switch: </b>{{ this.packsLeftToDraft }}<br />
+      <b>Number of Cards drafted: </b>{{ player!.cardsDrafted.length }}<br />
+      <b>Enable Super Pick(Select two Cards from this Pack): </b>
+      <mat-slide-toggle class="double-draft-toggle" [disabled]="disableCheckboxFlag" [(ngModel)]="checkboxValue">
+      </mat-slide-toggle>
+      <br />
+      <b>Super Picks Remaining: </b>{{this.player?.doubleDraftPicksRemaining}} <br />
+      </p>
+      <mat-progress-bar mode="determinate" [value]="packsDraftedPercent" class="progress-bar"></mat-progress-bar>
+
+      <div>
+        <mat-tab-group class="draft-board">
+          <mat-tab class="header" label="Current Pack">
+            <div class="grid-container">
+              <div class="grid-item" *ngFor="let card of currentPack?.cardsInPack">
+                <div class="image-container">
+                  <img [src]="card.details.image_normal" alt="Image" (click)="handleCardSelection(card)" class = "grid-image" (mouseover)="handleHover(card)" (mouseout)="handleOffHover(card)">
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </mat-tab>
-      <mat-tab label="Your Selections" *ngIf="player!.cardsDrafted!.length > 0">
-        <div class="grid-container">
-          <div class="grid-item" *ngFor="let card of player!.cardsDrafted">
-            <div class="image-container">
-              <img [src]="card.details.image_normal" alt="Image" class="grid-image" (mouseover)="handleHover(card)" (mouseout)="handleOffHover(card)">
+          </mat-tab>
+          <mat-tab class="header" label="Cards Drafted">
+            <div class="grid-container">
+              <div class="grid-item" *ngFor="let card of player!.cardsDrafted">
+                <div class="image-container">
+                  <img [src]="card.details.image_normal" alt="Image" class="grid-image" (mouseover)="handleHover(card)" (mouseout)="handleOffHover(card)">
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </mat-tab>
-    </mat-tab-group> 
-  `,
-  styleUrl: './grid.component.css'
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+    `,
+    styleUrl: './pyramid-draft.component.scss',
+    imports: [
+        CommonModule,
+        FormsModule,
+        RouterModule,
+        MatProgressBarModule,
+        MatTabsModule,
+        MatSlideToggleModule
+    ]
 })
-export class GridComponent {
+export class PyramidDraftComponent {
+
+  featureList = ["Feature 1", "Feature 2", "Feature 3", "Feature 4"];
 
   route: ActivatedRoute = inject(ActivatedRoute);
   player: Player | undefined;
@@ -63,20 +78,39 @@ export class GridComponent {
   currentPack: CardPack | undefined;
   packNumber: number = 0;
   packsDraftedPercent: number = 0;
+  packsLeftToDraft: number = 0;
   disableCheckboxFlag: boolean = true;
   checkboxValue: boolean = false;
   showHover: boolean = false;
   playerName: string;
   partnerName: string | undefined;
+  partnerUrl: string | undefined;
 
   constructor(private gameService: GameRegisterService, private router: Router, private _snackBar: MatSnackBar) {
     this.gameId = this.route.snapshot.params['gameID'];
     this.playerName = this.route.snapshot.params['playerName'];
 
-    console.log("Swapped to Grid, GameID: " + this.gameId + "\nPlayerName: " + this.playerName);
+    console.log("Started Pyramid Draft, GameID: " + this.gameId + "\nPlayerName: " + this.playerName);
+
+    // DEV ENV CALLS
+    // this.playerName = "Josh";
+    // gameService.getFakeGameData().then(gameInfo => {
+    //   this.gameInfo = gameInfo;
+    //   this.gameId = gameInfo.gameID;
+    //   console.log("Grid gameInfo ID: " + this.gameInfo.gameID + "\nPlayer#: " + this.gameInfo.players.length);
+    //   this.player = this.gameInfo?.players.find(player => player.playerName === this.playerName);
+    //   this.partnerName = this.gameInfo?.players.find(player => !(player.playerName === this.playerName))?.playerName;
+    //   this.currentPack = this.player?.cardPacks.find(pack => (pack.packNumber === this.player?.currentDraftPack));
+    //   this.packNumber = this.player?.currentDraftPack ?? 0;
+    //   console.log("Pack Number: " + this.packNumber);
+    //   this.evaluateCheckbox();
+    //   this.packsDraftedPercent = (this.packNumber / this.player!.cardPacks.length) * 100;
+    //   this.packsLeftToDraft = (this.player!.cardPacks.length - this.packNumber);
+    // });
 
     gameService.getGameInfo(this.gameId).then(gameInfo => {
       this.gameInfo = gameInfo;
+      this.gameId = gameInfo.gameID;
       console.log("Grid gameInfo ID: " + this.gameInfo.gameID + "\nPlayer#: " + this.gameInfo.players.length);
       this.player = this.gameInfo?.players.find(player => player.playerName === this.playerName);
       this.partnerName = this.gameInfo?.players.find(player => !(player.playerName === this.playerName))?.playerName;
@@ -85,6 +119,8 @@ export class GridComponent {
       console.log("Pack Number: " + this.packNumber);
       this.evaluateCheckbox();
       this.packsDraftedPercent = (this.packNumber / this.player!.cardPacks.length) * 100;
+      this.packsLeftToDraft = (this.player!.cardPacks.length - this.packNumber);
+      this.partnerUrl = `${environment.hostname}/pyramidDraft/${this.gameId}/${this.partnerName}`;
     });
   }
 
@@ -109,6 +145,7 @@ export class GridComponent {
 
       this.packNumber++;
       this.packsDraftedPercent = (this.packNumber / this.player!.cardPacks.length) * 100;
+      this.packsLeftToDraft--;
 
       console.log("GAME STATE: " + this.gameInfo?.gameState);
 
@@ -119,7 +156,7 @@ export class GridComponent {
         this.router.navigate(['/waiting', this.gameId, this.player?.playerName]);
       }
       else if (this.packsDraftedPercent === 100 && (this.gameInfo?.gameState === 'GAME_MERGED' || this.gameInfo?.gameState === 'GAME_COMPLETE')) {
-        this.router.navigate(['/endGame', this.gameId, this.player?.playerName]);
+        this.router.navigate(['/deckBuilder', this.gameId, this.player?.playerName]);
       }
     }
   }
@@ -178,6 +215,7 @@ export class GridComponent {
 
     if (hoveredCard.details.image_flip !== null) {
       console.log("Card has a flip: " + hoveredCard.name);
+      console.log("Card has a image: " + hoveredCard.details.image_flip);
       // Probably not the cleanest but I dont use the small image anyway
       hoveredCard.details.image_small = hoveredCard.details.image_normal;
 
@@ -186,11 +224,14 @@ export class GridComponent {
   }
 
   handleOffHover(offHoverCard: Card) {
-
     if (offHoverCard.details.image_flip !== null) {
-
       offHoverCard.details.image_normal = offHoverCard.details.image_small
-      
     }
+  }
+
+  getTestPack() {
+    this.gameService.getFakePack().then(pack => {
+      this.currentPack = pack;
+    });
   }
 }
