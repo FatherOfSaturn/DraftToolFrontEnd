@@ -1,8 +1,6 @@
 import { Routes } from '@angular/router';
 import { PyramidLandingComponent } from './pyramid-landing/pyramid-landing.component';
-import { GridComponent } from './grid/grid.component';
 import { WaitingRoomComponent } from './waiting-room/waiting-room.component';
-import { EndRoomComponent } from './end-room/end-room.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { PyramidDraftComponent } from './pyramid-draft/pyramid-draft.component';
 import { DeckBuilderComponent } from './deck-builder.component/deck-builder.component';
@@ -25,11 +23,11 @@ const routeConfig: Routes = [
     component: PyramidDraftComponent,
     title: 'Pyramid Draft Started'
   },
-  {
-    path: 'pyramid/:gameID/:playerName',
-    component: GridComponent,
-    title: 'Pyramid Draft In Progress'
-  },
+  // {
+  //   path: 'pyramid/:gameID/:playerName',
+  //   component: GridComponent,
+  //   title: 'Pyramid Draft In Progress'
+  // },
   {
     // path: 'waiting/:gameID/:playerName',
     path: "waiting",
@@ -42,11 +40,11 @@ const routeConfig: Routes = [
     component: DeckBuilderComponent,
     title: 'Deck Builder'
   },
-  {
-    path: 'endGame/:gameID/:playerName',
-    component: EndRoomComponent,
-    title: 'End'
-  },
+  // {   NEW DECK BUILDER COMPONENT!!!!
+  //   path: 'endGame/:gameID/:playerName',
+  //   component: EndRoomComponent,
+  //   title: 'End'
+  // },
   {
     path: 'mulligan',
     component: MulliganComponent,
