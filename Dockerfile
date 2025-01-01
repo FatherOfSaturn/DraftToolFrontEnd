@@ -64,4 +64,4 @@ RUN pip install --upgrade pip
 # Install Certbot and the Certbot NGINX plugin within the virtual environment
 RUN pip install certbot certbot-nginx
 
-RUN certbot --nginx -d pyramiddraft.xyz --non-interactive --agree-tos --email hitma1221@gmail.com --redirect
+# RUN certbot --nginx -d pyramiddraft.xyz --non-interactive --agree-tos --email hitma1221@gmail.com --redirect
